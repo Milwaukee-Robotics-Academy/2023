@@ -23,7 +23,7 @@ public class Swerve extends SubsystemBase {
     public SwerveDriveOdometry swerveOdometry;
     public SwerveModule[] mSwerveMods;
     private final AHRS gyro = new AHRS(SPI.Port.kMXP, (byte) 200);
-private PIDController driftCorrectionPID = new PIDController(0.07, 0.00, 0,0.004);
+private PIDController driftCorrectionPID = new PIDController(0.07, 0.00, 0,0.04);
 private double previousXY;
 private double desiredHeading;
 
