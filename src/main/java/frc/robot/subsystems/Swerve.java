@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -17,10 +18,15 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.SwerveModule;
 
+
 public class Swerve extends SubsystemBase {
     public SwerveDriveOdometry swerveOdometry;
     public SwerveModule[] mSwerveMods;
     private final AHRS gyro = new AHRS(SPI.Port.kMXP, (byte) 200);
+private PIDController driftCorrectionPID = new PIDController(0.07, 0.00, 0,0.004);
+private double previousXY;
+private double desiredHeading;
+
     public Swerve() {
 
         zeroGyro();
@@ -37,18 +43,25 @@ public class Swerve extends SubsystemBase {
 
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
        
+       ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+            translation.getX(), 
+            translation.getY(), 
+            rotation, 
+            getYaw()
+        );
+
         /**
          * TODO: First get the Chassis speeds, run through drift correction then pass
          * see: https://www.chiefdelphi.com/t/mk4-drift/403628/28
          */
+        double xy = Math.abs(speeds.vxMetersPerSecond) + Math.abs(speeds.vyMetersPerSecond);
+        if(Math.abs(speeds.omegaRadiansPerSecond) > 0.0 || previousXY <= 0) desiredHeading = getPose().getRotation().getDegrees();
+        else if(xy > 0) speeds.omegaRadiansPerSecond += driftCorrectionPID.calculate(getPose().getRotation().getDegrees(), desiredHeading);
+        previousXY = xy;
+
         SwerveModuleState[] swerveModuleStates =
             Constants.Swerve.swerveKinematics.toSwerveModuleStates(
-                fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(
-                                    translation.getX(), 
-                                    translation.getY(), 
-                                    rotation, 
-                                    getYaw()
-                                )
+                fieldRelative ? speeds
                                 : new ChassisSpeeds(
                                     translation.getX(), 
                                     translation.getY(), 
@@ -60,7 +73,7 @@ public class Swerve extends SubsystemBase {
         for(SwerveModule mod : mSwerveMods){
             mod.setDesiredState(swerveModuleStates[mod.moduleNumber], isOpenLoop);
         }
-    }    
+    }
 
     /* Used by SwerveControllerCommand in Auto */
     public void setModuleStates(SwerveModuleState[] desiredStates) {
@@ -97,6 +110,7 @@ public class Swerve extends SubsystemBase {
 
     public void zeroGyro(){
         gyro.zeroYaw();
+        desiredHeading = 0;
     }
 
     public Rotation2d getYaw() {
