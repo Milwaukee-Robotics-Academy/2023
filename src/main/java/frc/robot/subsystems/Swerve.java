@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import org.littletonrobotics.junction.Logger;
+
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -129,7 +131,7 @@ private double desiredHeading;
             resetModulesToAbsolute();
         }
 
-        swerveOdometry.update(getYaw(), getModulePositions());  
+        Logger.getInstance().recordOutput("Robot",(swerveOdometry.update(getYaw(), getModulePositions())));  
         SmartDashboard.putData(gyro);
         SmartDashboard.putNumber("Yaw",getYaw().getDegrees());
         for(SwerveModule mod : mSwerveMods){
