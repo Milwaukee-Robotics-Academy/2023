@@ -1,11 +1,22 @@
 package frc.robot;
 
+import java.util.ArrayList;
+
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
+import edu.wpi.first.apriltag.AprilTag;
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.util.Units;
 import frc.lib.util.COTSFalconSwerveConstants;
 import frc.lib.util.SwerveModuleConstants;
 
@@ -143,5 +154,40 @@ public final class Constants {
         public static final TrapezoidProfile.Constraints kThetaControllerConstraints =
             new TrapezoidProfile.Constraints(
                 kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
+    }
+
+    public static class FieldConstants {
+       public static final double length = Units.feetToMeters(54);
+       public static final double width = Units.feetToMeters(27);
+       public static final AprilTagFieldLayout getFieldLayout() {
+        try {
+            AprilTagFieldLayout.loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile);
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+        ArrayList<AprilTag> atList = new ArrayList<AprilTag>();
+        atList.add(new AprilTag(1, new Pose3d(new Pose2d(15.513558,1.071626,Rotation2d.fromDegrees(0.462788)))));
+        atList.add(new AprilTag(2, new Pose3d(new Pose2d(15.513558, 2.748026, Rotation2d.fromDegrees(0.462788)))));
+        atList.add(new AprilTag(3, new Pose3d(new Pose2d(15.513558, 4.424426, Rotation2d.fromDegrees(0.462788)))));
+        atList.add(new AprilTag(4, new Pose3d(new Pose2d(16.178784, 6.749796, Rotation2d.fromDegrees(0.695452)))));
+        atList.add(new AprilTag(5, new Pose3d(new Pose2d(0.36195, 6.749796, Rotation2d.fromDegrees(0.695452)))));
+        atList.add(new AprilTag(6, new Pose3d(new Pose2d(1.02743, 4.424426, Rotation2d.fromDegrees(0.462788)))));
+        atList.add(new AprilTag(7, new Pose3d(new Pose2d(1.02743, 2.748026, Rotation2d.fromDegrees(0.462788)))));
+        atList.add(new AprilTag(8, new Pose3d(new Pose2d(1.02743, 1.071626, Rotation2d.fromDegrees(0.462788)))));
+        return new AprilTagFieldLayout(atList, FieldConstants.length, FieldConstants.width);
+        }
+           
+        }
+    }
+
+    public static class VisionConstants {
+        public static final Transform3d robotToCam =
+                new Transform3d(
+                        new Translation3d(0.5, 0.0, 0.5),
+                        new Rotation3d(
+                                0, 0,
+                                0)); // Cam mounted facing forward, half a meter forward of center, half a meter up
+        // from center.
+        public static final String cameraName = "Arducam_OV9281_USB_Camera";
     }
 }
