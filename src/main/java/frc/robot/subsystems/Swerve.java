@@ -7,6 +7,7 @@ import org.photonvision.EstimatedRobotPose;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.apriltag.AprilTagFieldLayout.OriginPosition;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -36,7 +37,7 @@ public class Swerve extends SubsystemBase {
     final Field2d m_fieldSim = new Field2d();
 
     public Swerve() {
-        gyro.setAngleAdjustment(-90);
+       // gyro.setAngleAdjustment(-90);
         zeroGyro();
 
         mSwerveMods = new SwerveModule[] {
@@ -51,7 +52,7 @@ public class Swerve extends SubsystemBase {
          */
         Timer.delay(1.0);
         resetModulesToAbsolute();
-        
+
         photonCamera = new PhotonCameraWrapper();
         swervePoseEstimator = new SwerveDrivePoseEstimator(Constants.Swerve.swerveKinematics, getYaw(), getModulePositions(), getPose());
         SmartDashboard.putData("Field", m_fieldSim);
@@ -101,7 +102,13 @@ public class Swerve extends SubsystemBase {
     }    
 
     public Pose2d getPose() {
-        return swervePoseEstimator.getEstimatedPosition();
+        try{
+         return swervePoseEstimator.getEstimatedPosition();
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            return new Pose2d();
+        }   
     }
 
     public void resetOdometry(Pose2d pose) {

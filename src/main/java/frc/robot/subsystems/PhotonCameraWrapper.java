@@ -23,19 +23,14 @@ package frc.robot.subsystems;
  * SOFTWARE.
  */
 
-import edu.wpi.first.apriltag.AprilTag;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.apriltag.AprilTagFieldLayout.OriginPosition;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Pose3d;
-import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.Constants;
-import frc.robot.Constants.FieldConstants;
 import frc.robot.Constants.VisionConstants;
-import java.util.ArrayList;
 import java.util.Optional;
 
-import org.littletonrobotics.junction.Logger;
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
@@ -68,6 +63,14 @@ public class PhotonCameraWrapper {
         // Forward Camera
         photonCamera = new PhotonCamera(VisionConstants.cameraName); // Change the name of your camera here to whatever it is in the
         AprilTagFieldLayout atfl = Constants.FieldConstants.getFieldLayout();
+        DriverStation.Alliance color;
+        color = DriverStation.getAlliance();
+        if(color == DriverStation.Alliance.Blue){
+            atfl.setOrigin(OriginPosition.kRedAllianceWallRightSide);
+        }else if(color == DriverStation.Alliance.Red){
+            atfl.setOrigin(OriginPosition.kBlueAllianceWallRightSide);
+        }
+        
            
 
         // Create pose estimator
