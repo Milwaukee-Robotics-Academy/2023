@@ -160,24 +160,25 @@ public final class Constants {
        public static final double length = Units.feetToMeters(54);
        public static final double width = Units.feetToMeters(27);
        public static final AprilTagFieldLayout getFieldLayout() {
+       AprilTagFieldLayout field;
+
         try {
-            AprilTagFieldLayout.loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile);
+            field = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile);
         } catch (Exception e) {
             System.out.println(e);
-        } finally {
-        ArrayList<AprilTag> atList = new ArrayList<AprilTag>();
-        atList.add(new AprilTag(1, new Pose3d(new Pose2d(15.513558,1.071626,Rotation2d.fromDegrees(0.462788)))));
-        atList.add(new AprilTag(2, new Pose3d(new Pose2d(15.513558, 2.748026, Rotation2d.fromDegrees(0.462788)))));
-        atList.add(new AprilTag(3, new Pose3d(new Pose2d(15.513558, 4.424426, Rotation2d.fromDegrees(0.462788)))));
-        atList.add(new AprilTag(4, new Pose3d(new Pose2d(16.178784, 6.749796, Rotation2d.fromDegrees(0.695452)))));
-        atList.add(new AprilTag(5, new Pose3d(new Pose2d(0.36195, 6.749796, Rotation2d.fromDegrees(0.695452)))));
-        atList.add(new AprilTag(6, new Pose3d(new Pose2d(1.02743, 4.424426, Rotation2d.fromDegrees(0.462788)))));
-        atList.add(new AprilTag(7, new Pose3d(new Pose2d(1.02743, 2.748026, Rotation2d.fromDegrees(0.462788)))));
-        atList.add(new AprilTag(8, new Pose3d(new Pose2d(1.02743, 1.071626, Rotation2d.fromDegrees(0.462788)))));
-        return new AprilTagFieldLayout(atList, FieldConstants.length, FieldConstants.width);
-        }
-           
-        }
+            ArrayList<AprilTag> atList = new ArrayList<AprilTag>();
+            atList.add(new AprilTag(1, new Pose3d(new Pose2d(15.513558,1.071626,Rotation2d.fromDegrees(0.462788)))));
+            atList.add(new AprilTag(2, new Pose3d(new Pose2d(15.513558, 2.748026, Rotation2d.fromDegrees(0.462788)))));
+            atList.add(new AprilTag(3, new Pose3d(new Pose2d(15.513558, 4.424426, Rotation2d.fromDegrees(0.462788)))));
+            atList.add(new AprilTag(4, new Pose3d(new Pose2d(16.178784, 6.749796, Rotation2d.fromDegrees(0.695452)))));
+            atList.add(new AprilTag(5, new Pose3d(new Pose2d(0.36195, 6.749796, Rotation2d.fromDegrees(0.695452)))));
+            atList.add(new AprilTag(6, new Pose3d(new Pose2d(1.02743, 4.424426, Rotation2d.fromDegrees(0.462788)))));
+            atList.add(new AprilTag(7, new Pose3d(new Pose2d(1.02743, 2.748026, Rotation2d.fromDegrees(0.462788)))));
+            atList.add(new AprilTag(8, new Pose3d(new Pose2d(1.02743, 1.071626, Rotation2d.fromDegrees(0.462788)))));
+            field = new AprilTagFieldLayout(atList, FieldConstants.length, FieldConstants.width);
+        } 
+           return field;
+    }
     }
 
     public static class VisionConstants {
