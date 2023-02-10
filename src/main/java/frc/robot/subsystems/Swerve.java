@@ -136,7 +136,8 @@ public class Swerve extends SubsystemBase {
             resetModulesToAbsolute();
         }
 
-        Logger.getInstance().recordOutput("Robot", (swerveOdometry.update(getYaw(), getModulePositions())));
+
+        Logger.getInstance().recordOutput("Robot",(swerveOdometry.update(getYaw(), getModulePositions())));  
         SmartDashboard.putData(gyro);
         SmartDashboard.putNumber("Yaw", getYaw().getDegrees());
         for (SwerveModule mod : mSwerveMods) {
