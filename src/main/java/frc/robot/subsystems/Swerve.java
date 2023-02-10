@@ -18,16 +18,16 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.SwerveModule;
-
+import frc.robot.Constants.Swerve.*;
 
 public class Swerve extends SubsystemBase {
     public SwerveDriveOdometry swerveOdometry;
     public SwerveModule[] mSwerveMods;
-    private final AHRS gyro = new AHRS(SPI.Port.kMXP, (byte) 200);
-private PIDController driftCorrectionPID = new PIDController(0.07, 0.00, 0,0.04);
-private double previousXY;
-private double desiredHeading;
+    public SwerveDriveOdometry swerveDriveOdometry;
+    public final AHRS gyro = new AHRS(SPI.Port.kMXP, (byte) 200);
+    private PIDController driftCorrectionPID = new PIDController(0.07, 0.0, 0.04, 0.004);
+    private double previousXY;
+    private double desiredHeading;
 
     public Swerve() {
 
@@ -44,35 +44,35 @@ private double desiredHeading;
     }
 
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
-       
-       ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-            translation.getX(), 
-            translation.getY(), 
-            rotation, 
-            getYaw()
-        );
+
+        ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+                translation.getX(),
+                translation.getY(),
+                rotation,
+                getYaw());
 
         /**
          * TODO: First get the Chassis speeds, run through drift correction then pass
          * see: https://www.chiefdelphi.com/t/mk4-drift/403628/28
          */
         double xy = Math.abs(speeds.vxMetersPerSecond) + Math.abs(speeds.vyMetersPerSecond);
-        if(Math.abs(speeds.omegaRadiansPerSecond) > 0.0 || previousXY <= 0) desiredHeading = getPose().getRotation().getDegrees();
-        else if(xy > 0) speeds.omegaRadiansPerSecond += driftCorrectionPID.calculate(getPose().getRotation().getDegrees(), desiredHeading);
+        if (Math.abs(speeds.omegaRadiansPerSecond) > 0.0 || previousXY <= 0)
+            desiredHeading = getPose().getRotation().getDegrees();
+        else if (xy > 0)
+            speeds.omegaRadiansPerSecond += driftCorrectionPID.calculate(getPose().getRotation().getDegrees(),
+                    desiredHeading);
         previousXY = xy;
 
-        SwerveModuleState[] swerveModuleStates =
-            Constants.Swerve.swerveKinematics.toSwerveModuleStates(
+        SwerveModuleState[] swerveModuleStates = Constants.Swerve.swerveKinematics.toSwerveModuleStates(
                 fieldRelative ? speeds
-                                : new ChassisSpeeds(
-                                    translation.getX(), 
-                                    translation.getY(), 
-                                    rotation)
-                                );
+                        : new ChassisSpeeds(
+                                translation.getX(),
+                                translation.getY(),
+                                rotation));
 
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.Swerve.maxSpeed);
 
-        for(SwerveModule mod : mSwerveMods){
+        for (SwerveModule mod : mSwerveMods) {
             mod.setDesiredState(swerveModuleStates[mod.moduleNumber], isOpenLoop);
         }
     }
@@ -80,12 +80,16 @@ private double desiredHeading;
     /* Used by SwerveControllerCommand in Auto */
     public void setModuleStates(SwerveModuleState[] desiredStates) {
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, Constants.Swerve.maxSpeed);
-        
-        for(SwerveModule mod : mSwerveMods){
+
+        for (SwerveModule mod : mSwerveMods) {
             mod.setDesiredState(desiredStates[mod.moduleNumber], false);
         }
-    }    
+    }
 
+    /**
+     * Return the current position of the robot on field
+     * Based on drive encoder and gyro reading
+     */
     public Pose2d getPose() {
         return swerveOdometry.getPoseMeters();
     }
@@ -94,50 +98,52 @@ private double desiredHeading;
         swerveOdometry.resetPosition(getYaw(), getModulePositions(), pose);
     }
 
-    public SwerveModuleState[] getModuleStates(){
+    public SwerveModuleState[] getModuleStates() {
         SwerveModuleState[] states = new SwerveModuleState[4];
-        for(SwerveModule mod : mSwerveMods){
+        for (SwerveModule mod : mSwerveMods) {
             states[mod.moduleNumber] = mod.getState();
         }
         return states;
     }
 
-    public SwerveModulePosition[] getModulePositions(){
+    public SwerveModulePosition[] getModulePositions() {
         SwerveModulePosition[] positions = new SwerveModulePosition[4];
-        for(SwerveModule mod : mSwerveMods){
+        for (SwerveModule mod : mSwerveMods) {
             positions[mod.moduleNumber] = mod.getPosition();
         }
         return positions;
     }
 
-    public void zeroGyro(){
+    public void zeroGyro() {
         gyro.zeroYaw();
         desiredHeading = 0;
     }
 
     public Rotation2d getYaw() {
-        return (Constants.Swerve.invertGyro) ? Rotation2d.fromDegrees(360 - gyro.getYaw()) : Rotation2d.fromDegrees(gyro.getYaw()*-1);
+        return (Constants.Swerve.invertGyro) ? Rotation2d.fromDegrees(360 - gyro.getYaw())
+                : Rotation2d.fromDegrees(gyro.getYaw() * -1);
     }
 
-    public void resetModulesToAbsolute(){
-        for(SwerveModule mod : mSwerveMods){
+    public void resetModulesToAbsolute() {
+        for (SwerveModule mod : mSwerveMods) {
             mod.resetToAbsolute();
         }
     }
 
     @Override
-    public void periodic(){
-        if (DriverStation.isDisabled()){
+    public void periodic() {
+        if (DriverStation.isDisabled()) {
             resetModulesToAbsolute();
         }
 
+
         Logger.getInstance().recordOutput("Robot",(swerveOdometry.update(getYaw(), getModulePositions())));  
         SmartDashboard.putData(gyro);
-        SmartDashboard.putNumber("Yaw",getYaw().getDegrees());
-        for(SwerveModule mod : mSwerveMods){
+        SmartDashboard.putNumber("Yaw", getYaw().getDegrees());
+        for (SwerveModule mod : mSwerveMods) {
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Cancoder", mod.getCanCoder().getDegrees());
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Integrated", mod.getPosition().angle.getDegrees());
-            SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);    
+            SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);
         }
     }
 }
