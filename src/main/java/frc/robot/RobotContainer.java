@@ -25,13 +25,19 @@ public class RobotContainer {
     private final int translationAxis = XboxController.Axis.kLeftY.value;
     private final int strafeAxis = XboxController.Axis.kLeftX.value;
     private final int rotationAxis = XboxController.Axis.kRightX.value;
+    private final int intakeAxis = XboxController.Axis.kLeftTrigger.value;
+    private final int outtakeAxis = XboxController.Axis.kRightTrigger.value;
 
     /* Driver Buttons */
     private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value);
     private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
+    
+
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
+
+    private final IntakeSubsystem intake = new IntakeSubsystem();
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -44,6 +50,9 @@ public class RobotContainer {
                 () -> -driver.getRawAxis(rotationAxis), 
                 () -> robotCentric.getAsBoolean()
             )
+        );
+        intake.setDefaultCommand(
+            new Intakecommand(intake, () -> driver.getRawAxis(intakeAxis), () -> driver.getRawAxis(outtakeAxis))
         );
 
         // Configure the button bindings

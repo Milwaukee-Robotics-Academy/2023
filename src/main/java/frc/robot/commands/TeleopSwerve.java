@@ -31,6 +31,7 @@ public class TeleopSwerve extends CommandBase {
     @Override
     public void execute() {
         /* Get Values, Deadband*/
+        /*Sup stands for suppliers, Val stands value, */
         double translationVal = MathUtil.applyDeadband(translationSup.getAsDouble(), Constants.stickDeadband);
         double strafeVal = MathUtil.applyDeadband(strafeSup.getAsDouble(), Constants.stickDeadband);
         double rotationVal = MathUtil.applyDeadband(rotationSup.getAsDouble(), Constants.stickDeadband);
