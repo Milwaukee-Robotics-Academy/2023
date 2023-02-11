@@ -57,7 +57,6 @@ public class RobotContainer {
 
   /* Subsystems */
   private final SwerveBase swerveBase;
-  private final Limelight limelight;
 
   // public Joystick getDriver() {
   // return driver;
@@ -82,7 +81,6 @@ public class RobotContainer {
     centerAlignTag = new JoystickButton(buttonBox, 2);
     rightAlignTag = new JoystickButton(buttonBox, 3);
     swerveBase = new SwerveBase();
-    limelight = new Limelight();
     swerveBase.setDefaultCommand(
         new TeleopSwerve(
             swerveBase,
@@ -119,11 +117,7 @@ public class RobotContainer {
 
     zeroGyro.onTrue(new InstantCommand(() -> swerveBase.getNavX().reset()));
 
-    leftAlignTag.onTrue(new GoToTagCmd(swerveBase, limelight, -10));
-    centerAlignTag.onTrue(new GoToTagCmd(swerveBase, limelight, 0));
-    rightAlignTag.onTrue(new GoToTagCmd(swerveBase, limelight, 10));
 
-    alignWithTarget.whileTrue(new VisionAlignCmd(limelight, swerveBase));
 
     autoBalance.onTrue(new ProxyCommand(() -> new AutoBalanceCmd(swerveBase)));
 

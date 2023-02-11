@@ -34,22 +34,22 @@ public final class Constants {
                 public static final double maxSpeed = 4.5; // meters per second
                 public static final double maxAngularVelocity = 11.5;
 
-                public static final int frontLeftRotationMotorId = 5;
-                public static final int frontLeftDriveMotorId = 6;
+                public static final int frontLeftRotationMotorId = 4;
+                public static final int frontLeftDriveMotorId = 2;
 
                 public static final int frontRightRotationMotorId = 7;
-                public static final int frontRightDriveMotorId = 8;
+                public static final int frontRightDriveMotorId = 1;
 
-                public static final int rearLeftRotationMotorId = 3;
-                public static final int rearLeftDriveMotorId = 4;
+                public static final int rearLeftRotationMotorId = 5;
+                public static final int rearLeftDriveMotorId = 6;
 
-                public static final int rearRightRotationMotorId = 1;
-                public static final int rearRightDriveMotorId = 2;
+                public static final int rearRightRotationMotorId = 3;
+                public static final int rearRightDriveMotorId = 8;
 
-                public static final int frontLeftRotationEncoderId = 11;
-                public static final int frontRightRotationEncoderId = 12;
-                public static final int rearLeftRotationEncoderId = 10;
-                public static final int rearRightRotationEncoderId = 9;
+                public static final int frontLeftRotationEncoderId = 12;
+                public static final int frontRightRotationEncoderId = 9;
+                public static final int rearLeftRotationEncoderId = 11;
+                public static final int rearRightRotationEncoderId = 10;
 
                 public static final double kTeleDriveMaxSpeedMetersPerSecond = 7.5 / 4.0;
                 public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = 3.5;
