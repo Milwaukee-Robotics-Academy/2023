@@ -36,10 +36,10 @@ public class SwerveBase extends SubsystemBase {
    * 180 degrees added to offset values to invert one side of the robot so that it
    * doesn't spin in place
    */
-  private static final double frontLeftAngleOffset = Units.degreesToRadians(292.64);
-  private static final double frontRightAngleOffset = Units.degreesToRadians(122.95);
-  private static final double rearLeftAngleOffset = Units.degreesToRadians(222.35);
-  private static final double rearRightAngleOffset = Units.degreesToRadians(76.49);
+  private static final double frontLeftAngleOffset = Units.degreesToRadians(292.15);
+  private static final double frontRightAngleOffset = Units.degreesToRadians(122.52);
+  private static final double rearLeftAngleOffset = Units.degreesToRadians(43.50);
+  private static final double rearRightAngleOffset = Units.degreesToRadians(77.78);
 
   /**
    * SwerveModule objects
