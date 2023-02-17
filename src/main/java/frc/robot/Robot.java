@@ -23,7 +23,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * project.
  */
 public class Robot extends LoggedRobot {
-  public static NEOConfigs neoConfigs;
+  public static CTREConfigs ctreConfigs;
 
   private Command m_autonomousCommand;
 
@@ -35,7 +35,7 @@ public class Robot extends LoggedRobot {
    */
   @Override
   public void robotInit() {
-    neoConfigs = new NEOConfigs();
+    ctreConfigs = new CTREConfigs();
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
