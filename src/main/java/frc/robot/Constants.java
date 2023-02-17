@@ -1,12 +1,11 @@
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import frc.lib.util.COTSFalconSwerveConstants;
+import frc.lib.util.COTSNEOSwerveConstants;
 import frc.lib.util.SwerveModuleConstants;
 
 public final class Constants {
@@ -16,8 +15,8 @@ public final class Constants {
         public static final int pigeonID = 1;
         public static final boolean invertGyro = false; // Always ensure Gyro is CCW+ CW-
 
-        public static final COTSFalconSwerveConstants chosenModule =  
-            COTSFalconSwerveConstants.SDSMK4(COTSFalconSwerveConstants.driveGearRatios.SDSMK4_L3);
+        public static final COTSNEOSwerveConstants chosenModule =  
+            COTSNEOSwerveConstants.SDSMK4i(COTSNEOSwerveConstants.driveGearRatios.SDSMK4i_L2);
 
         /* Drivetrain Constants */
         public static final double trackWidth = 0.4; //Units.inchesToMeters(21.73); //TODO: This must be tuned to specific robot
@@ -54,7 +53,7 @@ public final class Constants {
         public static final double drivePeakCurrentDuration = 0.1;
         public static final boolean driveEnableCurrentLimit = true;
 
-        /* These values are used by the drive falcon to ramp in open loop and closed loop driving.
+        /* These values are used by the drive NEO to ramp in open loop and closed loop driving.
          * We found a small open loop ramp (0.25) helps with tread wear, tipping, etc */
         public static final double openLoopRamp = 0.25;
         public static final double closedLoopRamp = 0.0;
@@ -84,8 +83,8 @@ public final class Constants {
         public static final double maxAngularVelocity = 10.0; //TODO: This must be tuned to specific robot
 
         /* Neutral Modes */
-        public static final NeutralMode angleNeutralMode = NeutralMode.Coast;
-        public static final NeutralMode driveNeutralMode = NeutralMode.Brake;
+       // public static final NeutralMode angleNeutralMode = NeutralMode.Coast;
+       // public static final NeutralMode driveNeutralMode = NeutralMode.Brake;
 
         /* Module Specific Constants */
         /* Front Left Module - Module 0 */
