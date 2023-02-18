@@ -51,7 +51,8 @@ public final class Constants {
                 public static final int rearLeftRotationEncoderId = 11;
                 public static final int rearRightRotationEncoderId = 10;
 
-                public static final double kTeleDriveMaxSpeedMetersPerSecond = 7.5 / 4.0;
+              //  public static final double kTeleDriveMaxSpeedMetersPerSecond = 7.5 / 4.0;
+              public static final double kTeleDriveMaxSpeedMetersPerSecond = 4.5;
                 public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = 3.5;
                 public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3;
                 public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 3;
