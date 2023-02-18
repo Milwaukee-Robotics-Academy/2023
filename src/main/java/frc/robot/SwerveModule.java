@@ -30,7 +30,7 @@ public class SwerveModule {
     private CANSparkMax mAngleMotor;
     private CANSparkMax mDriveMotor;
     private CANCoder angleEncoder;
-    private final SparkMaxPIDController rotationController;
+   // private final SparkMaxPIDController rotationController;
     private PIDController testRotationController;
 
     SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(Constants.Swerve.driveKS, Constants.Swerve.driveKV, Constants.Swerve.driveKA);
@@ -51,10 +51,10 @@ public class SwerveModule {
         mDriveMotor = new CANSparkMax(moduleConstants.driveMotorID, MotorType.kBrushless);
         configDriveMotor();
 
-        rotationController = mAngleMotor.getPIDController();
-        rotationController.setP(0.5);
-        rotationController.setI(0.0);
-        rotationController.setD(0.0);
+        // rotationController = mAngleMotor.getPIDController();
+        // rotationController.setP(0.5);
+        // rotationController.setI(0.0);
+        // rotationController.setD(0.0);
         testRotationController = new PIDController(0.5,0.0,0.0);
         testRotationController.enableContinuousInput(-Math.PI, Math.PI);
 
