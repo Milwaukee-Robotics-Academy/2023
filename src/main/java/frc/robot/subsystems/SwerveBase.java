@@ -36,10 +36,10 @@ public class SwerveBase extends SubsystemBase {
    * 180 degrees added to offset values to invert one side of the robot so that it
    * doesn't spin in place
    */
-  private static final double frontLeftAngleOffset = Units.degreesToRadians(0);
-  private static final double frontRightAngleOffset = Units.degreesToRadians(0);
-  private static final double rearLeftAngleOffset = Units.degreesToRadians(0);
-  private static final double rearRightAngleOffset = Units.degreesToRadians(0);
+  private static final double frontLeftAngleOffset = Units.degreesToRadians(110.65);
+  private static final double frontRightAngleOffset = Units.degreesToRadians(302.78);
+  private static final double rearLeftAngleOffset = Units.degreesToRadians(223.33);
+  private static final double rearRightAngleOffset = Units.degreesToRadians(257.78);
 
   /**
    * SwerveModule objects
@@ -120,10 +120,10 @@ public class SwerveBase extends SubsystemBase {
     rearLeft.resetDistance();
     rearRight.resetDistance();
 
-    rearRight.getDriveMotor().setInverted(false);
-    rearLeft.getDriveMotor().setInverted(false);
-    frontRight.getDriveMotor().setInverted(false);
-    frontLeft.getDriveMotor().setInverted(false);
+    rearRight.getDriveMotor().setInverted(true);
+    rearLeft.getDriveMotor().setInverted(true);
+    frontRight.getDriveMotor().setInverted(true);
+    frontLeft.getDriveMotor().setInverted(true);
 
     rearRight.getRotationMotor().setInverted(true);
     rearLeft.getRotationMotor().setInverted(true);
@@ -152,6 +152,7 @@ public class SwerveBase extends SubsystemBase {
     SmartDashboard.putNumber("RightFrontEnc",frontRight.getIntegratedAngle().getDegrees());
     SmartDashboard.putNumber("LeftRearEnc",rearLeft.getIntegratedAngle().getDegrees());
     SmartDashboard.putNumber("RightRearEnc",rearRight.getIntegratedAngle().getDegrees());
+    SmartDashboard.putData(navX);
   }
 
   /**
@@ -179,8 +180,8 @@ public class SwerveBase extends SubsystemBase {
       getHeading()
   );
      double xy = Math.abs(speeds.vxMetersPerSecond) + Math.abs(speeds.vyMetersPerSecond);
-    if(Math.abs(speeds.omegaRadiansPerSecond) > 0.0 || previousXY <= 0) desiredHeading = getPose().getRotation().getDegrees();
-     else if(xy > 0) speeds.omegaRadiansPerSecond += driftCorrectionPID.calculate(getPose().getRotation().getDegrees(), desiredHeading);
+   // if(Math.abs(speeds.omegaRadiansPerSecond) > 0.0 || previousXY <= 0) desiredHeading = getPose().getRotation().getDegrees();
+    // else if(xy > 0) speeds.omegaRadiansPerSecond += driftCorrectionPID.calculate(getPose().getRotation().getDegrees(), desiredHeading);
      previousXY = xy;
 
      speeds = isFieldRelative
@@ -318,7 +319,7 @@ public class SwerveBase extends SubsystemBase {
   // get the current heading of the robot based on the gyro
   public Rotation2d getHeading() {
 
-    return Rotation2d.fromDegrees(-navX.getYaw());
+    return Rotation2d.fromDegrees(navX.getYaw()*-1);
 
   }
 
