@@ -13,8 +13,8 @@ public final class Constants {
                 public static final SimpleMotorFeedforward driveFF = new SimpleMotorFeedforward(0.1, 0.15, 0.01);
 
                 /* Drivetrain Constants */
-                public static final double trackWidth = Units.inchesToMeters(19.5);
-                public static final double wheelBase = Units.inchesToMeters(16.5);
+                public static final double trackWidth = Units.inchesToMeters(18.75);
+                public static final double wheelBase = Units.inchesToMeters(14.75);
 
                 // nominal (real) divided by fudge factor
                 public static final double wheelDiameter = Units.inchesToMeters(4.0 / 1.04085);

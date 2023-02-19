@@ -36,10 +36,10 @@ public class SwerveBase extends SubsystemBase {
    * 180 degrees added to offset values to invert one side of the robot so that it
    * doesn't spin in place
    */
-  private static final double frontLeftAngleOffset = Units.degreesToRadians(292.15);
-  private static final double frontRightAngleOffset = Units.degreesToRadians(122.52);
-  private static final double rearLeftAngleOffset = Units.degreesToRadians(43.50);
-  private static final double rearRightAngleOffset = Units.degreesToRadians(77.78);
+  private static final double frontLeftAngleOffset = Units.degreesToRadians(0);
+  private static final double frontRightAngleOffset = Units.degreesToRadians(0);
+  private static final double rearLeftAngleOffset = Units.degreesToRadians(0);
+  private static final double rearRightAngleOffset = Units.degreesToRadians(0);
 
   /**
    * SwerveModule objects
@@ -87,6 +87,9 @@ public class SwerveBase extends SubsystemBase {
    */
   private final SwerveDriveOdometry odometry = new SwerveDriveOdometry(Swerve.kinematics, new Rotation2d(),
       getModulePositions());
+  private PIDController driftCorrectionPID = new PIDController(0.07, 0.00, 0,0.04);
+  private double desiredHeading;
+  private double previousXY;
 
   public SwerveDriveOdometry getOdometry() {
     return odometry;
@@ -169,9 +172,19 @@ public class SwerveBase extends SubsystemBase {
      * speeds is set to field relative or default (robot relative) based on
      * parameter
      */
-    ChassisSpeeds speeds = isFieldRelative
-        ? ChassisSpeeds.fromFieldRelativeSpeeds(
-            forward, strafe, rotation, getHeading())
+    ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+      forward, 
+      strafe, 
+      rotation, 
+      getHeading()
+  );
+     double xy = Math.abs(speeds.vxMetersPerSecond) + Math.abs(speeds.vyMetersPerSecond);
+    if(Math.abs(speeds.omegaRadiansPerSecond) > 0.0 || previousXY <= 0) desiredHeading = getPose().getRotation().getDegrees();
+     else if(xy > 0) speeds.omegaRadiansPerSecond += driftCorrectionPID.calculate(getPose().getRotation().getDegrees(), desiredHeading);
+     previousXY = xy;
+
+     speeds = isFieldRelative
+        ? speeds
         : new ChassisSpeeds(forward, strafe, rotation);
 
     // use kinematics (wheel placements) to convert overall robot state to array of
@@ -192,9 +205,19 @@ public class SwerveBase extends SubsystemBase {
      * speeds is set to field relative or default (robot relative) based on
      * parameter
      */
-    ChassisSpeeds speeds = isFieldRelative
-        ? ChassisSpeeds.fromFieldRelativeSpeeds(
-            forward, strafe, rotation, getHeading())
+    ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+      forward, 
+      strafe, 
+      rotation, 
+      getHeading()
+  );
+     double xy = Math.abs(speeds.vxMetersPerSecond) + Math.abs(speeds.vyMetersPerSecond);
+    if(Math.abs(speeds.omegaRadiansPerSecond) > 0.0 || previousXY <= 0) desiredHeading = getPose().getRotation().getDegrees();
+     else if(xy > 0) speeds.omegaRadiansPerSecond += driftCorrectionPID.calculate(getPose().getRotation().getDegrees(), desiredHeading);
+     previousXY = xy;
+
+     speeds = isFieldRelative
+        ? speeds
         : new ChassisSpeeds(forward, strafe, rotation);
 
     // use kinematics (wheel placements) to convert overall robot state to array of
@@ -301,6 +324,11 @@ public class SwerveBase extends SubsystemBase {
 
   public AHRS getNavX() {
     return navX;
+  }
+
+  public void zeroHeading() {
+    navX.reset();
+    desiredHeading = 0;
   }
 
   public void stopModules() {

@@ -4,7 +4,7 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.networktables.DoubleSubscriber;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
@@ -14,16 +14,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ProxyCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.Constants.Swerve;
+import frc.robot.autos.ExampleAuto;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
-
-import com.pathplanner.lib.PathConstraints;
-import com.pathplanner.lib.PathPlanner;
-import com.pathplanner.lib.PathPlannerTrajectory;
-import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 
 // import com.pathplanner.lib.*;
 // import com.pathplanner.lib.commands.PPSwerveControllerCommand;
@@ -49,11 +43,8 @@ public class RobotContainer {
 
   /* Driver Buttons */
   private final JoystickButton zeroGyro;
-  private final JoystickButton alignWithTarget;
   private final JoystickButton autoBalance;
-  private final JoystickButton leftAlignTag;
-  private final JoystickButton centerAlignTag;
-  private final JoystickButton rightAlignTag;
+
 
   /* Subsystems */
   private final SwerveBase swerveBase;
@@ -68,6 +59,7 @@ public class RobotContainer {
 
   SendableChooser<Command> autoChooser = new SendableChooser<>();
 
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -75,11 +67,7 @@ public class RobotContainer {
     driver = new Joystick(0);
     buttonBox = new ButtonBox(1);
     zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value);
-    alignWithTarget = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
     autoBalance = new JoystickButton(driver, XboxController.Button.kX.value);
-    leftAlignTag = new JoystickButton(buttonBox, 1);
-    centerAlignTag = new JoystickButton(buttonBox, 2);
-    rightAlignTag = new JoystickButton(buttonBox, 3);
     swerveBase = new SwerveBase();
     swerveBase.setDefaultCommand(
         new TeleopSwerve(
@@ -87,6 +75,7 @@ public class RobotContainer {
             () -> driver.getRawAxis(translationAxis),
             () -> driver.getRawAxis(strafeAxis),
             () -> driver.getRawAxis(rotationAxis),
+            () -> speedReduction(),
             () -> !driver.getRawButton(XboxController.Button.kLeftBumper.value)));
 
     // Configure the button bindings
@@ -104,6 +93,14 @@ public class RobotContainer {
     }
   }
 
+  public double speedReduction() {
+    if (driver.getRawButtonPressed(XboxController.Button.kRightBumper.value)){
+      return 0.4;
+    } else {
+      return 1.0;
+    }
+  }
+
   /**
    * Use this method to define your button->command mappings. Buttons can be
    * created by
@@ -115,7 +112,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     /* Driver Buttons */
 
-    zeroGyro.onTrue(new InstantCommand(() -> swerveBase.getNavX().reset()));
+    zeroGyro.onTrue(new InstantCommand(() -> swerveBase.zeroHeading()));
 
 
 
@@ -130,7 +127,8 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     try {
-      return autoChooser.getSelected();
+      // return autoChooser.getSelected();
+      return new ExampleAuto(swerveBase);
     } catch (NullPointerException ex) {
       DriverStation.reportError("auto choose NULL somewhere in getAutonomousCommand in RobotContainer.java", null);
       return new InstantCommand();

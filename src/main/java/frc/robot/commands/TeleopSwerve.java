@@ -30,18 +30,21 @@ public class TeleopSwerve extends CommandBase {
   private final SlewRateLimiter xLimiter, yLimiter, turningLimiter;
   private final Supplier<Boolean> fieldOrientedFunction;
 
+  private DoubleSupplier m_speedReduction;
+
   public TeleopSwerve(
       SwerveBase subsystem,
       DoubleSupplier fwdX,
       DoubleSupplier fwdY,
       DoubleSupplier rot,
+      DoubleSupplier speedReduction,
       Supplier<Boolean> fieldOrientedFunction) {
 
     drive = subsystem;
     forwardX = fwdX;
     forwardY = fwdY;
     rotation = rot;
-
+    m_speedReduction = speedReduction;    
     this.fieldOrientedFunction = fieldOrientedFunction;
 
     this.xLimiter = new SlewRateLimiter(Swerve.kTeleDriveMaxAccelerationUnitsPerSecond);
@@ -72,10 +75,11 @@ public class TeleopSwerve extends CommandBase {
     rot = Math.abs(rot) > 0.1 ? rot : 0.0;
 
     // 3. Make the driving smoother
-    fwdX = xLimiter.calculate(fwdX) * Swerve.kTeleDriveMaxSpeedMetersPerSecond;
-    fwdY = yLimiter.calculate(fwdY) * Swerve.kTeleDriveMaxSpeedMetersPerSecond;
+    fwdX = xLimiter.calculate(fwdX) * Swerve.kTeleDriveMaxSpeedMetersPerSecond * m_speedReduction.getAsDouble();
+    fwdY = yLimiter.calculate(fwdY) * Swerve.kTeleDriveMaxSpeedMetersPerSecond * m_speedReduction.getAsDouble();
     rot = turningLimiter.calculate(rot)
         * Swerve.kTeleDriveMaxAngularSpeedRadiansPerSecond;
+
 
     drive.drive(
         -fwdX,
