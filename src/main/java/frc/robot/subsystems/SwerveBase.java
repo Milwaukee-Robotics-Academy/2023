@@ -87,7 +87,7 @@ public class SwerveBase extends SubsystemBase {
    */
   private final SwerveDriveOdometry odometry = new SwerveDriveOdometry(Swerve.kinematics, new Rotation2d(),
       getModulePositions());
-  private PIDController driftCorrectionPID = new PIDController(0.07, 0.00, 0,0.04);
+  private PIDController driftCorrectionPID = new PIDController(0.15, 0.00, 0.0,0.04);
   private double desiredHeading;
   private double previousXY;
 
@@ -179,9 +179,11 @@ public class SwerveBase extends SubsystemBase {
       rotation, 
       getHeading()
   );
+  SmartDashboard.putNumber("CommandX",forward);
+  SmartDashboard.putNumber("CommandY",strafe);
      double xy = Math.abs(speeds.vxMetersPerSecond) + Math.abs(speeds.vyMetersPerSecond);
-   // if(Math.abs(speeds.omegaRadiansPerSecond) > 0.0 || previousXY <= 0) desiredHeading = getPose().getRotation().getDegrees();
-    // else if(xy > 0) speeds.omegaRadiansPerSecond += driftCorrectionPID.calculate(getPose().getRotation().getDegrees(), desiredHeading);
+     if(Math.abs(speeds.omegaRadiansPerSecond) > 0.0 || previousXY <= 0) desiredHeading = getPose().getRotation().getDegrees();
+     else if(xy > 0) speeds.omegaRadiansPerSecond += driftCorrectionPID.calculate(getPose().getRotation().getDegrees(), desiredHeading);
      previousXY = xy;
 
      speeds = isFieldRelative
