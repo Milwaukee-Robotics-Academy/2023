@@ -48,6 +48,7 @@ public class RobotContainer {
                 () -> -driver.getRawAxis(translationAxis), 
                 () -> -driver.getRawAxis(strafeAxis), 
                 () -> -driver.getRawAxis(rotationAxis), 
+                () -> speedReduction(),
                 () -> robotCentric.getAsBoolean()
             )
         );
@@ -59,6 +60,13 @@ public class RobotContainer {
         configureButtonBindings();
     }
 
+    public double speedReduction() {
+        if (driver.getRawButtonPressed(XboxController.Button.kRightBumper.value)){
+          return 0.4;
+        } else {
+          return 1.0;
+        }
+      }
     /**
      * Use this method to define your button->command mappings. Buttons can be created by
      * instantiating a {@link GenericHID} or one of its subclasses ({@link
