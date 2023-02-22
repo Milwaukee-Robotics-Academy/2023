@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ProxyCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.autos.ExampleAuto;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
@@ -63,7 +64,10 @@ public class RobotContainer {
   SendableChooser<Command> autoChooser = new SendableChooser<>();
   private JoystickButton slow;
 
-
+public final POVButton UP; 
+public final POVButton DOWN;
+public final POVButton LEFT;
+public final POVButton RIGHT;
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -73,6 +77,10 @@ public class RobotContainer {
     zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value);
     autoBalance = new JoystickButton(driver, XboxController.Button.kX.value);
     slow = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
+    UP = new POVButton(driver, 0);
+    DOWN = new POVButton(driver, 180);
+    LEFT = new POVButton(driver, 270);
+    RIGHT = new POVButton(driver, 90);
     swerveBase = new SwerveBase();
     swerveBase.setDefaultCommand(
         new TeleopSwerve(
@@ -124,7 +132,10 @@ public class RobotContainer {
 
 
     autoBalance.onTrue(new ProxyCommand(() -> new AutoBalanceCmd(swerveBase)));
-
+    UP.onTrue(new InstantCommand(()-> swerveBase.setDesiredHeading(0)));
+DOWN.onTrue(new InstantCommand(()-> swerveBase.setDesiredHeading(180)));
+RIGHT.onTrue(new InstantCommand(()-> swerveBase.setDesiredHeading(-90)));
+LEFT.onTrue(new InstantCommand(()-> swerveBase.setDesiredHeading(90)));
   }
 
   /**

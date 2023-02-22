@@ -6,6 +6,8 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.Swerve;
 
+import java.lang.reflect.Method;
+
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
@@ -231,6 +233,12 @@ public class SwerveBase extends SubsystemBase {
     setModuleStates(states, isAutoBalancing);
 
   }
+
+  public void setDesiredHeading(double heading){
+    desiredHeading = heading;
+  }
+    
+
 
   /**
    * Method to set the desired state for each swerve module
