@@ -96,6 +96,9 @@ public class SwerveBase extends SubsystemBase {
     return odometry;
   }
 
+  public SwerveDriveKinematics getKinematics() {
+    return Swerve.kinematics;
+  }
   public SwerveBase() {
     navX = new AHRS(SPI.Port.kMXP);
     new Thread(() -> {

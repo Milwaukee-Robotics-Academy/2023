@@ -74,9 +74,9 @@ public final class Constants {
                 public static final double kPYController = 0.75;
                 public static final double kPThetaController = 5;
 
-                public static final double kMaxSpeedMetersPerSecond = Swerve.maxSpeed / 4;
+                public static final double kMaxSpeedMetersPerSecond = Swerve.maxSpeed / 1.5;
                 public static final double kMaxAngularSpeedRadiansPerSecond = //
-                                Swerve.maxAngularVelocity / 10;
+                                Swerve.maxAngularVelocity / 2;
                 public static final double kMaxAccelerationMetersPerSecondSquared = 3;
                 public static final double kMaxAngularAccelerationRadiansPerSecondSquared = Math.PI / 4;
 
