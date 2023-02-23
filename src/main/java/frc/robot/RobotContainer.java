@@ -49,7 +49,6 @@ public class RobotContainer {
   private final JoystickButton zeroGyro;
   private final JoystickButton autoBalance;
 
-
   /* Subsystems */
   private final SwerveBase swerveBase;
 
@@ -64,10 +63,11 @@ public class RobotContainer {
   SendableChooser<Command> autoChooser = new SendableChooser<>();
   private JoystickButton slow;
 
-public final POVButton UP; 
-public final POVButton DOWN;
-public final POVButton LEFT;
-public final POVButton RIGHT;
+  public final POVButton UP;
+  public final POVButton DOWN;
+  public final POVButton LEFT;
+  public final POVButton RIGHT;
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -107,11 +107,11 @@ public final POVButton RIGHT;
   }
 
   public double speedReduction() {
-    if (slow.getAsBoolean()){
-      SmartDashboard.putBoolean("SpeedReduced",true);
+    if (slow.getAsBoolean()) {
+      SmartDashboard.putBoolean("SpeedReduced", true);
       return 0.4;
     } else {
-      SmartDashboard.putBoolean("SpeedReduced",false);
+      SmartDashboard.putBoolean("SpeedReduced", false);
       return 1.0;
     }
   }
@@ -129,13 +129,31 @@ public final POVButton RIGHT;
 
     zeroGyro.onTrue(new InstantCommand(() -> swerveBase.zeroHeading()));
 
-
-
     autoBalance.onTrue(new ProxyCommand(() -> new AutoBalanceCmd(swerveBase)));
-    UP.onTrue(new InstantCommand(()-> swerveBase.setDesiredHeading(0)));
-DOWN.onTrue(new InstantCommand(()-> swerveBase.setDesiredHeading(180)));
-RIGHT.onTrue(new InstantCommand(()-> swerveBase.setDesiredHeading(-90)));
-LEFT.onTrue(new InstantCommand(()-> swerveBase.setDesiredHeading(90)));
+    UP.onTrue(new TurnToAngleCmd(
+        swerveBase,
+        0.0,
+        () -> driver.getRawAxis(translationAxis),
+        () -> driver.getRawAxis(strafeAxis),
+        () -> speedReduction()));
+    DOWN.onTrue(new TurnToAngleCmd(
+        swerveBase,
+        180.0,
+        () -> driver.getRawAxis(translationAxis),
+        () -> driver.getRawAxis(strafeAxis),
+        () -> speedReduction()));
+    RIGHT.onTrue(new TurnToAngleCmd(
+        swerveBase,
+        -90.0,
+        () -> driver.getRawAxis(translationAxis),
+        () -> driver.getRawAxis(strafeAxis),
+        () -> speedReduction()));
+    LEFT.onTrue(new TurnToAngleCmd(
+        swerveBase,
+        90.0,
+        () -> driver.getRawAxis(translationAxis),
+        () -> driver.getRawAxis(strafeAxis),
+        () -> speedReduction()));
   }
 
   /**

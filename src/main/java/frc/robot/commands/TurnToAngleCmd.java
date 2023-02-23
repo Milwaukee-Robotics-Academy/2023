@@ -4,23 +4,40 @@
 
 package frc.robot.commands;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants.Swerve;
 import frc.robot.subsystems.SwerveBase;
 
 public class TurnToAngleCmd extends CommandBase {
   SwerveBase swerveBase;
   double angleDegrees;
+  DoubleSupplier m_forward;
+  DoubleSupplier m_strafe;
+  DoubleSupplier m_speedReduction;
+  private final SlewRateLimiter xLimiter, yLimiter;
   final double ANGULAR_P = 0.066;
   final double ANGULAR_D = 0.0;
   PIDController turnController = new PIDController(ANGULAR_P, 0.0, ANGULAR_D);
   double rotationSpeed;
 
   /** Creates a new TurnToAngleCmd. */
-  public TurnToAngleCmd(SwerveBase swerveBase, double angleDegrees) {
+  public TurnToAngleCmd(SwerveBase swerveBase, 
+    double angleDegrees,
+    DoubleSupplier forward,
+    DoubleSupplier strafe,
+    DoubleSupplier speedReduction) {
     this.swerveBase = swerveBase;
     this.angleDegrees = angleDegrees;
+    m_forward = forward;
+    m_strafe = strafe;
+    m_speedReduction = speedReduction;
+    this.xLimiter = new SlewRateLimiter(Swerve.kTeleDriveMaxAccelerationUnitsPerSecond);
+    this.yLimiter = new SlewRateLimiter(Swerve.kTeleDriveMaxAccelerationUnitsPerSecond);
     addRequirements(swerveBase);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -35,7 +52,21 @@ public class TurnToAngleCmd extends CommandBase {
   @Override
   public void execute() {
     rotationSpeed = turnController.calculate(swerveBase.getHeading().getDegrees(), angleDegrees);
-    swerveBase.drive(0, 0, rotationSpeed, true);
+
+    double fwdX = m_forward.getAsDouble();
+    double fwdY = m_strafe.getAsDouble();
+
+    // 2. Apply deadband
+    fwdX = Math.abs(fwdX) > 0.1 ? fwdX : 0.0;
+    fwdY = Math.abs(fwdY) > 0.1 ? fwdY : 0.0;
+
+
+    // 3. Make the driving smoother
+    fwdX = xLimiter.calculate(fwdX) * Swerve.kTeleDriveMaxSpeedMetersPerSecond * m_speedReduction.getAsDouble();
+    fwdY = yLimiter.calculate(fwdY) * Swerve.kTeleDriveMaxSpeedMetersPerSecond * m_speedReduction.getAsDouble();
+
+
+    swerveBase.drive(-fwdX, -fwdY, rotationSpeed, true);
 
   }
 
@@ -47,6 +78,10 @@ public class TurnToAngleCmd extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    if(turnController.atSetpoint()){
+      return true;
+    }else {
     return false;
+    }
   }
 }
