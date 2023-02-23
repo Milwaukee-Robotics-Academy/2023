@@ -20,7 +20,7 @@ public class TurnToAngleCmd extends CommandBase {
   DoubleSupplier m_strafe;
   DoubleSupplier m_speedReduction;
   private final SlewRateLimiter xLimiter, yLimiter;
-  final double ANGULAR_P = 0.066;
+  final double ANGULAR_P = 0.1;
   final double ANGULAR_D = 0.0;
   PIDController turnController = new PIDController(ANGULAR_P, 0.0, ANGULAR_D);
   double rotationSpeed;
@@ -36,6 +36,7 @@ public class TurnToAngleCmd extends CommandBase {
     m_forward = forward;
     m_strafe = strafe;
     m_speedReduction = speedReduction;
+    turnController.enableContinuousInput(-180, 180);
     this.xLimiter = new SlewRateLimiter(Swerve.kTeleDriveMaxAccelerationUnitsPerSecond);
     this.yLimiter = new SlewRateLimiter(Swerve.kTeleDriveMaxAccelerationUnitsPerSecond);
     addRequirements(swerveBase);
