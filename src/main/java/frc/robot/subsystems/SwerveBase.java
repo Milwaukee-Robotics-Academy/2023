@@ -132,6 +132,7 @@ public class SwerveBase extends SubsystemBase {
     rearLeft.getRotationMotor().setInverted(true);
     frontRight.getRotationMotor().setInverted(true);
     frontLeft.getRotationMotor().setInverted(true);
+    driftCorrectionPID.enableContinuousInput(-180, 180);
 
   }
 
