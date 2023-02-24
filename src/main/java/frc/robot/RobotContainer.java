@@ -36,8 +36,7 @@ import frc.robot.subsystems.SwerveBase;
  */
 public class RobotContainer {
   /* Controllers */
-  private final Joystick driver;
-  private final ButtonBox buttonBox;
+  private final Joystick driver,operator;
 
   /* Drive Controls */
   private final int translationAxis = 1;
@@ -71,23 +70,25 @@ public class RobotContainer {
   private POVButton operatorLEFT;
   private POVButton operatorRIGHT;
 
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     driver = new Joystick(0);
-    buttonBox = new ButtonBox(1);
+    operator = new Joystick(1);
     zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value);
     autoBalance = new JoystickButton(driver, XboxController.Button.kX.value);
     slow = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
     driverUP = new POVButton(driver, 0);
+    driverRIGHT = new POVButton(driver, 90);
     driverDOWN = new POVButton(driver, 180);
     driverLEFT = new POVButton(driver, 270);
-    driverRIGHT = new POVButton(driver, 90);
-    operatorUP = new POVButton(driver, 0);
-    operatorDOWN = new POVButton(driver, 180);
-    operatorLEFT = new POVButton(driver, 270);
-    operatorRIGHT = new POVButton(driver, 90);
+    operatorUP = new POVButton(operator, 0);
+    operatorRIGHT = new POVButton(operator, 90);
+    operatorDOWN = new POVButton(operator, 180);
+    operatorLEFT = new POVButton(operator, 270);
+
     swerveBase = new SwerveBase();
     swerveBase.setDefaultCommand(
         new TeleopSwerve(
