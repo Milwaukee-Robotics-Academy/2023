@@ -4,9 +4,6 @@
 
 package frc.robot;
 
-import javax.swing.text.StyleContext.SmallAttributeSet;
-
-import edu.wpi.first.networktables.DoubleSubscriber;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
@@ -20,8 +17,10 @@ import edu.wpi.first.wpilibj2.command.ProxyCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.autos.ExampleAuto;
-import frc.robot.commands.*;
-import frc.robot.subsystems.*;
+import frc.robot.commands.AutoBalanceCmd;
+import frc.robot.commands.TeleopSwerve;
+import frc.robot.commands.TurnToAngleCmd;
+import frc.robot.subsystems.SwerveBase;
 
 // import com.pathplanner.lib.*;
 // import com.pathplanner.lib.commands.PPSwerveControllerCommand;
