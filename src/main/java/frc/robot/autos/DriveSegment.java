@@ -105,10 +105,11 @@ public class DriveSegment extends SwerveControllerCommand{
         protected static final Pose2d WAYPOINT_START1 = new Pose2d(1.37, 1.07, Rotation2d.fromDegrees(0));
         protected static final Pose2d WAYPOINT_START2 = new Pose2d(1.37, 2.75, Rotation2d.fromDegrees(0));
         protected static final Pose2d WAYPOINT_START3 = new Pose2d(1.37, 4.42, Rotation2d.fromDegrees(0));
-        protected static final Pose2d WAYPOINT_GP1 = new Pose2d(7.05, .91, Rotation2d.fromDegrees(-45));
-        protected static final Pose2d WAYPOINT_GP2 = new Pose2d(7.05, 2.13, Rotation2d.fromDegrees(-90));
-        protected static final Pose2d WAYPOINT_GP3 = new Pose2d(7.05, 3.35, Rotation2d.fromDegrees(90));
-        protected static final Pose2d WAYPOINT_GP4 = new Pose2d(7.05, 4.75, Rotation2d.fromDegrees(45));
-        protected static final Pose2d WAYPOINT_CHARGESTATION = new Pose2d(3.82, 2.73, Rotation2d.fromDegrees(0));
+        protected static final Pose2d WAYPOINT_GP1 = new Pose2d(7.05, .91, Rotation2d.fromDegrees(45));
+        protected static final Pose2d WAYPOINT_GP2 = new Pose2d(7.05, 2.13, Rotation2d.fromDegrees(90));
+        protected static final Pose2d WAYPOINT_CENTER_CROSS = new Pose2d(7.05, 2.75, Rotation2d.fromDegrees(0));
+        protected static final Pose2d WAYPOINT_GP3 = new Pose2d(7.05, 3.35, Rotation2d.fromDegrees(-90));
+        protected static final Pose2d WAYPOINT_GP4 = new Pose2d(7.05, 4.75, Rotation2d.fromDegrees(-45));
+        protected static final Pose2d WAYPOINT_CHARGESTATION = new Pose2d(3.82, 2.75, Rotation2d.fromDegrees(0));
        
 }

@@ -4,8 +4,8 @@ import java.util.List;
 
 import frc.robot.subsystems.SwerveBase;
 
-public class startLeftPickup1 extends DriveSegment {
-    public startLeftPickup1(SwerveBase swerve){
+public class StartLeftPickup1 extends DriveSegment {
+    public StartLeftPickup1(SwerveBase swerve){
         super(swerve, 
         List.of(WAYPOINT_START1.getTranslation(), WAYPOINT_GP1.getTranslation()),
             WAYPOINT_START1.getRotation(),

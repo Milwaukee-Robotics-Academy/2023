@@ -17,10 +17,10 @@ import edu.wpi.first.wpilibj2.command.ProxyCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.autos.ExampleAuto;
-import frc.robot.commands.AutoBalanceCmd;
-import frc.robot.commands.TeleopSwerve;
-import frc.robot.commands.TurnToAngleCmd;
-import frc.robot.subsystems.SwerveBase;
+import frc.robot.commands.*;
+import frc.robot.subsystems.*;
+import frc.robot.autos.*;
+
 
 // import com.pathplanner.lib.*;
 // import com.pathplanner.lib.commands.PPSwerveControllerCommand;
@@ -196,7 +196,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     try {
       // return autoChooser.getSelected();
-      return new ExampleAuto(swerveBase);
+      return new StartLeftPickup1(swerveBase);
     } catch (NullPointerException ex) {
       DriverStation.reportError("auto choose NULL somewhere in getAutonomousCommand in RobotContainer.java", null);
       return new InstantCommand();
