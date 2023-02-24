@@ -4,9 +4,6 @@
 
 package frc.robot;
 
-import javax.swing.text.StyleContext.SmallAttributeSet;
-
-import edu.wpi.first.networktables.DoubleSubscriber;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
@@ -18,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ProxyCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.autos.ExampleAuto;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
@@ -38,8 +36,7 @@ import frc.robot.autos.*;
  */
 public class RobotContainer {
   /* Controllers */
-  private final Joystick driver;
-  private final ButtonBox buttonBox;
+  private final Joystick driver,operator;
 
   /* Drive Controls */
   private final int translationAxis = 1;
@@ -49,7 +46,6 @@ public class RobotContainer {
   /* Driver Buttons */
   private final JoystickButton zeroGyro;
   private final JoystickButton autoBalance;
-
 
   /* Subsystems */
   private final SwerveBase swerveBase;
@@ -65,16 +61,34 @@ public class RobotContainer {
   SendableChooser<Command> autoChooser = new SendableChooser<>();
   private JoystickButton slow;
 
+  public final POVButton driverUP;
+  public final POVButton driverDOWN;
+  public final POVButton driverLEFT;
+  public final POVButton driverRIGHT;
+  private POVButton operatorUP;
+  private POVButton operatorDOWN;
+  private POVButton operatorLEFT;
+  private POVButton operatorRIGHT;
+
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     driver = new Joystick(0);
-    buttonBox = new ButtonBox(1);
+    operator = new Joystick(1);
     zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value);
     autoBalance = new JoystickButton(driver, XboxController.Button.kX.value);
     slow = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
+    driverUP = new POVButton(driver, 0);
+    driverRIGHT = new POVButton(driver, 90);
+    driverDOWN = new POVButton(driver, 180);
+    driverLEFT = new POVButton(driver, 270);
+    operatorUP = new POVButton(operator, 0);
+    operatorRIGHT = new POVButton(operator, 90);
+    operatorDOWN = new POVButton(operator, 180);
+    operatorLEFT = new POVButton(operator, 270);
+
     swerveBase = new SwerveBase();
     swerveBase.setDefaultCommand(
         new TeleopSwerve(
@@ -101,11 +115,11 @@ public class RobotContainer {
   }
 
   public double speedReduction() {
-    if (slow.getAsBoolean()){
-      SmartDashboard.putBoolean("SpeedReduced",true);
+    if (slow.getAsBoolean()) {
+      SmartDashboard.putBoolean("SpeedReduced", true);
       return 0.4;
     } else {
-      SmartDashboard.putBoolean("SpeedReduced",false);
+      SmartDashboard.putBoolean("SpeedReduced", false);
       return 1.0;
     }
   }
@@ -123,10 +137,55 @@ public class RobotContainer {
 
     zeroGyro.onTrue(new InstantCommand(() -> swerveBase.zeroHeading()));
 
-
-
     autoBalance.onTrue(new ProxyCommand(() -> new AutoBalanceCmd(swerveBase)));
-
+    driverUP.onTrue(new TurnToAngleCmd(
+        swerveBase,
+        0.0,
+        () -> driver.getRawAxis(translationAxis),
+        () -> driver.getRawAxis(strafeAxis),
+        () -> speedReduction()));
+    driverDOWN.onTrue(new TurnToAngleCmd(
+        swerveBase,
+        180.0,
+        () -> driver.getRawAxis(translationAxis),
+        () -> driver.getRawAxis(strafeAxis),
+        () -> speedReduction()));
+    driverRIGHT.onTrue(new TurnToAngleCmd(
+        swerveBase,
+        -90.0,
+        () -> driver.getRawAxis(translationAxis),
+        () -> driver.getRawAxis(strafeAxis),
+        () -> speedReduction()));
+    driverLEFT.onTrue(new TurnToAngleCmd(
+        swerveBase,
+        90.0,
+        () -> driver.getRawAxis(translationAxis),
+        () -> driver.getRawAxis(strafeAxis),
+        () -> speedReduction()));
+    operatorUP.onTrue(new TurnToAngleCmd(
+        swerveBase,
+        0.0,
+        () -> driver.getRawAxis(translationAxis),
+        () -> driver.getRawAxis(strafeAxis),
+        () -> speedReduction()));
+    operatorDOWN.onTrue(new TurnToAngleCmd(
+        swerveBase,
+        180.0,
+        () -> driver.getRawAxis(translationAxis),
+        () -> driver.getRawAxis(strafeAxis),
+        () -> speedReduction()));
+    operatorRIGHT.onTrue(new TurnToAngleCmd(
+        swerveBase,
+        -90.0,
+        () -> driver.getRawAxis(translationAxis),
+        () -> driver.getRawAxis(strafeAxis),
+        () -> speedReduction()));
+    operatorLEFT.onTrue(new TurnToAngleCmd(
+        swerveBase,
+        90.0,
+        () -> driver.getRawAxis(translationAxis),
+        () -> driver.getRawAxis(strafeAxis),
+        () -> speedReduction()));
   }
 
   /**
