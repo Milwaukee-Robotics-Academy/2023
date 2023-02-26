@@ -77,7 +77,9 @@ Logger.getInstance().start(); // Start logging! No more data receivers, replay s
   public void disabledInit() {}
 
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() {
+    m_robotContainer.updateAutoChoices();
+  }
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
