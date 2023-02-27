@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -194,12 +195,34 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    try {
-      // return autoChooser.getSelected();
-      return new StartLeftPickup1(swerveBase);
-    } catch (NullPointerException ex) {
-      DriverStation.reportError("auto choose NULL somewhere in getAutonomousCommand in RobotContainer.java", null);
-      return new InstantCommand();
+    // Command Selected from Shuffleboard
+    return autoChooser.getSelected();
+}
+
+public void updateAutoChoices() {
+    if(DriverStation.getAlliance().equals(Alliance.Red)){
+        try {
+            autoChooser.setDefaultOption("NULL nothing", new InstantCommand());
+            autoChooser.addOption("Left start", new Start1PickupRed(swerveBase));
+            autoChooser.addOption("Center start", new Start2Balance(swerveBase));
+            Shuffleboard.getTab("Autonomous").add(autoChooser);
+          } catch (NullPointerException ex) {
+            autoChooser.setDefaultOption("NULL nothing", new InstantCommand());
+            DriverStation.reportError("auto choose NULL somewhere in RobotContainer.java", null);
+          }
+    }else if(DriverStation.getAlliance().equals(Alliance.Blue)){
+        try {
+            autoChooser.setDefaultOption("NULL nothing", new InstantCommand());
+            autoChooser.addOption("Left start", new Start1PickupBlue(swerveBase));
+            autoChooser.addOption("Center start", new Start2Balance(swerveBase));
+            Shuffleboard.getTab("Autonomous").add(autoChooser);
+          } catch (NullPointerException ex) {
+            autoChooser.setDefaultOption("NULL nothing", new InstantCommand());
+            DriverStation.reportError("auto choose NULL somewhere in RobotContainer.java", null);
+          }
+    }else {
+        autoChooser.setDefaultOption("NULL nothing", new InstantCommand());
     }
-  }
+
+}
 }
