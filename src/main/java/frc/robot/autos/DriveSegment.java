@@ -11,6 +11,7 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
+import frc.robot.Constants;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.subsystems.SwerveBase;
 
@@ -31,8 +32,8 @@ public class DriveSegment extends SwerveControllerCommand{
                 swerve::getPose, // Functional interface to feed supplier
                 swerve.getKinematics(),
                 // Position controllers
-                new PIDController(1, 0, 0),
-                new PIDController(1, 0, 0),
+                new PIDController(Constants.AutoConstants.kPXController, 0, 0),
+                new PIDController(Constants.AutoConstants.kPYController, 0, 0),
                 getThetaController(),
                 () -> endRotation,
                 swerve::setModuleStates,
