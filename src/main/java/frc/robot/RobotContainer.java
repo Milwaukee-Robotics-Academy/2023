@@ -25,13 +25,14 @@ public class RobotContainer {
     /* Controllers */
     private final Joystick driver = new Joystick(0);
     private final Joystick operator = new Joystick(1);
+
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
     private final int strafeAxis = XboxController.Axis.kLeftX.value;
     private final int rotationAxis = XboxController.Axis.kRightX.value;
     private final int intakeAxis = XboxController.Axis.kLeftTrigger.value;
     private final int outtakeAxis = XboxController.Axis.kRightTrigger.value;
-    private final JoystickButton slow;
+    
     /* Driver Buttons */
     private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value);
     private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
@@ -55,12 +56,15 @@ public class RobotContainer {
      */
     public RobotContainer() {
         s_Swerve.setDefaultCommand(
-                new TeleopSwerve(
-                        s_Swerve,
-                        () -> -driver.getRawAxis(translationAxis),
-                        () -> -driver.getRawAxis(strafeAxis),
-                        () -> -driver.getRawAxis(rotationAxis),
-                        () -> robotCentric.getAsBoolean()));
+            new TeleopSwerve(
+                s_Swerve, 
+                () -> -driver.getRawAxis(translationAxis), 
+                () -> -driver.getRawAxis(strafeAxis), 
+                () -> -driver.getRawAxis(rotationAxis), 
+                () -> speedReduction(),
+                () -> robotCentric.getAsBoolean()
+            )
+        );
         intake.setDefaultCommand(
                 new Intakecommand(intake, () -> driver.getRawAxis(intakeAxis), () -> driver.getRawAxis(outtakeAxis)));
         slow = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
@@ -76,6 +80,13 @@ public class RobotContainer {
         configureButtonBindings();
     }
 
+    public double speedReduction() {
+        if (driver.getRawButtonPressed(XboxController.Button.kRightBumper.value)){
+          return 0.4;
+        } else {
+          return 1.0;
+        }
+      }
     /**
      * Return how much the speed should be reduced.
      * 
