@@ -17,7 +17,6 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ProxyCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
-import frc.robot.autos.ExampleAuto;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 import frc.robot.autos.*;
@@ -202,7 +201,7 @@ public class RobotContainer {
 public void updateAutoChoices() {
     if(DriverStation.getAlliance().equals(Alliance.Red)){
         try {
-            autoChooser.setDefaultOption("NULL nothing", new InstantCommand());
+            autoChooser.setDefaultOption("Drive 1 meter", new Drive1m(swerveBase));
             autoChooser.addOption("Left start", new Start1PickupRed(swerveBase));
             autoChooser.addOption("Center start", new Start2Balance(swerveBase));
             Shuffleboard.getTab("Autonomous").add(autoChooser);
@@ -212,7 +211,7 @@ public void updateAutoChoices() {
           }
     }else if(DriverStation.getAlliance().equals(Alliance.Blue)){
         try {
-            autoChooser.setDefaultOption("NULL nothing", new InstantCommand());
+            autoChooser.setDefaultOption("Drive 1 Meter", new Drive1m(swerveBase));
             autoChooser.addOption("Left start", new Start1PickupBlue(swerveBase));
             autoChooser.addOption("Center start", new Start2Balance(swerveBase));
             Shuffleboard.getTab("Autonomous").add(autoChooser);
