@@ -74,6 +74,7 @@ public class Robot extends LoggedRobot {
 
   @Override
   public void disabledPeriodic() {
+    m_robotContainer.updateAutoChoices();
   }
 
   /**
