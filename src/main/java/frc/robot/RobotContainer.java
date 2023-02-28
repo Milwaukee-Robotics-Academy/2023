@@ -102,6 +102,8 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
+    autoChooser.setDefaultOption("Do nothing", new InstantCommand());
+    autoChooser.addOption("Center start", new Start2Balance(swerveBase));
   }
 
   public double speedReduction() {
@@ -185,34 +187,23 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // Command Selected from Shuffleboard
-   // return autoChooser.getSelected();
-   return new Drive1m(swerveBase);
+   return autoChooser.getSelected();
+   //return new Drive1m(swerveBase);
 }
 
 public void updateAutoChoices() {
-    // if(DriverStation.getAlliance().equals(Alliance.Red)){
-    //     try {
-    //         autoChooser.setDefaultOption("NULL nothing", new InstantCommand());
-    //         autoChooser.addOption("Left start", new Start1PickupRed(swerveBase));
-    //         autoChooser.addOption("Center start", new Start2Balance(swerveBase));
-
-    //       } catch (NullPointerException ex) {
-    //         autoChooser.setDefaultOption("NULL nothing", new InstantCommand());
-    //         DriverStation.reportError("auto choose NULL somewhere in RobotContainer.java", null);
-    //       }
-    // }else if(DriverStation.getAlliance().equals(Alliance.Blue)){
-    //     try {
-    //         autoChooser.setDefaultOption("NULL nothing", new InstantCommand());
-    //         autoChooser.addOption("Left start", new Start1PickupBlue(swerveBase));
-    //         autoChooser.addOption("Center start", new Start2Balance(swerveBase));
-    //        } catch (NullPointerException ex) {
-    //         autoChooser.setDefaultOption("NULL nothing", new InstantCommand());
-    //         DriverStation.reportError("auto choose NULL somewhere in RobotContainer.java", null);
-    //       }
-    // }else {
-    //     autoChooser.setDefaultOption("NULL nothing", new InstantCommand());
-    // }
-
-
-}
+    if(DriverStation.getAlliance().equals(Alliance.Red)){
+        try {
+            autoChooser.addOption("Left start", new Start1PickupRed(swerveBase));
+          } catch (NullPointerException ex) {
+            DriverStation.reportError("auto choose NULL somewhere in RobotContainer.java", null);
+          }
+    }else if(DriverStation.getAlliance().equals(Alliance.Blue)){
+        try {
+            autoChooser.addOption("Left start", new Start1PickupBlue(swerveBase));
+           } catch (NullPointerException ex) {
+            DriverStation.reportError("auto choose NULL somewhere in RobotContainer.java", null);
+          }    
+    }
+  }
 }
