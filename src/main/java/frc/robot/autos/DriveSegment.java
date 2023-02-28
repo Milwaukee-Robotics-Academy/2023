@@ -18,9 +18,7 @@ import frc.robot.subsystems.SwerveBase;
 public class DriveSegment extends SwerveControllerCommand{
     private SwerveBase m_swerveBase;
     private Pose2d m_initialPose;
-    private Rotation2d m_endRotation;
     private boolean m_resetPostion;
-    private Rotation2d m_startRotation;
 
     public DriveSegment(SwerveBase swerve,
         List<Translation2d> waypoints,
@@ -41,8 +39,6 @@ public class DriveSegment extends SwerveControllerCommand{
         m_swerveBase = swerve;
         var firstWaypoint = waypoints.get(0);
         m_initialPose = new Pose2d(firstWaypoint.getX(), firstWaypoint.getY(), startRotation);     
-        m_endRotation = endRotation;
-        m_startRotation = startRotation;  
         m_resetPostion = resetPosition;
         }
         
