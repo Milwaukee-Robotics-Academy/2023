@@ -104,6 +104,7 @@ public class RobotContainer {
 
     autoChooser.setDefaultOption("Do nothing", new InstantCommand());
     autoChooser.addOption("Center start", new Start2Balance(swerveBase));
+    Shuffleboard.getTab("Autonomous").add(autoChooser);
   }
 
   public double speedReduction() {
@@ -194,13 +195,15 @@ public class RobotContainer {
 public void updateAutoChoices() {
     if(DriverStation.getAlliance().equals(Alliance.Red)){
         try {
-            autoChooser.addOption("Left start", new Start1PickupRed(swerveBase));
+            autoChooser.addOption("Left start - Red", new Start1PickupRed(swerveBase));
+            autoChooser.addOption("Right start - Red", new Start3PickupRed(swerveBase));
           } catch (NullPointerException ex) {
             DriverStation.reportError("auto choose NULL somewhere in RobotContainer.java", null);
           }
     }else if(DriverStation.getAlliance().equals(Alliance.Blue)){
         try {
-            autoChooser.addOption("Left start", new Start1PickupBlue(swerveBase));
+            autoChooser.addOption("Left start - Blue", new Start1PickupBlue(swerveBase));
+            autoChooser.addOption("Right start - Blue", new Start3PickupBlue(swerveBase));
            } catch (NullPointerException ex) {
             DriverStation.reportError("auto choose NULL somewhere in RobotContainer.java", null);
           }    
