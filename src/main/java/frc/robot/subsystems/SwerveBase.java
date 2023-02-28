@@ -156,6 +156,11 @@ public class SwerveBase extends SubsystemBase {
     SmartDashboard.putNumber("RightFrontEnc",frontRight.getIntegratedAngle().getDegrees());
     SmartDashboard.putNumber("LeftRearEnc",rearLeft.getIntegratedAngle().getDegrees());
     SmartDashboard.putNumber("RightRearEnc",rearRight.getIntegratedAngle().getDegrees());
+
+    SmartDashboard.putNumber("LeftFront drive enc", frontLeft.getDriveDistanceRadians());
+    SmartDashboard.putNumber("RightFront drive enc",frontRight.getDriveDistanceRadians());
+    SmartDashboard.putNumber("LeftRear drive Enc",rearLeft.getDriveDistanceRadians());
+    SmartDashboard.putNumber("RightRear drive Enc",rearRight.getDriveDistanceRadians());
     SmartDashboard.putData(navX);
   }
 

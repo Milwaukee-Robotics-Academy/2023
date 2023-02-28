@@ -70,8 +70,8 @@ public final class Constants {
 
         public static final class AutoConstants {
 
-                public static final double kPXController = 0.75;
-                public static final double kPYController = 0.75;
+                public static final double kPXController = 15;
+                public static final double kPYController = 15;
                 public static final double kPThetaController = 5;
 
                 public static final double kMaxSpeedMetersPerSecond = Swerve.maxSpeed / 2.5;

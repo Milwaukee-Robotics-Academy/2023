@@ -17,7 +17,6 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ProxyCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
-import frc.robot.autos.ExampleAuto;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 import frc.robot.autos.*;
@@ -103,16 +102,6 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    try {
-      autoChooser.setDefaultOption("forward1m", swerveBase.followPathCmd("forward1m"));
-
-      autoChooser.addOption("complex", swerveBase.followPathCmd("complex"));
-
-      Shuffleboard.getTab("Autonomous").add(autoChooser);
-    } catch (NullPointerException ex) {
-      autoChooser.setDefaultOption("NULL nothing", new InstantCommand());
-      DriverStation.reportError("auto choose NULL somewhere in RobotContainer.java", null);
-    }
   }
 
   public double speedReduction() {
@@ -196,33 +185,33 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // Command Selected from Shuffleboard
-    return autoChooser.getSelected();
+   // return autoChooser.getSelected();
+   return new Drive1m(swerveBase);
 }
 
 public void updateAutoChoices() {
-    if(DriverStation.getAlliance().equals(Alliance.Red)){
-        try {
-            autoChooser.setDefaultOption("NULL nothing", new InstantCommand());
-            autoChooser.addOption("Left start", new Start1PickupRed(swerveBase));
-            autoChooser.addOption("Center start", new Start2Balance(swerveBase));
-            Shuffleboard.getTab("Autonomous").add(autoChooser);
-          } catch (NullPointerException ex) {
-            autoChooser.setDefaultOption("NULL nothing", new InstantCommand());
-            DriverStation.reportError("auto choose NULL somewhere in RobotContainer.java", null);
-          }
-    }else if(DriverStation.getAlliance().equals(Alliance.Blue)){
-        try {
-            autoChooser.setDefaultOption("NULL nothing", new InstantCommand());
-            autoChooser.addOption("Left start", new Start1PickupBlue(swerveBase));
-            autoChooser.addOption("Center start", new Start2Balance(swerveBase));
-            Shuffleboard.getTab("Autonomous").add(autoChooser);
-          } catch (NullPointerException ex) {
-            autoChooser.setDefaultOption("NULL nothing", new InstantCommand());
-            DriverStation.reportError("auto choose NULL somewhere in RobotContainer.java", null);
-          }
-    }else {
-        autoChooser.setDefaultOption("NULL nothing", new InstantCommand());
-    }
+    // if(DriverStation.getAlliance().equals(Alliance.Red)){
+    //     try {
+    //         autoChooser.setDefaultOption("NULL nothing", new InstantCommand());
+    //         autoChooser.addOption("Left start", new Start1PickupRed(swerveBase));
+    //         autoChooser.addOption("Center start", new Start2Balance(swerveBase));
+
+    //       } catch (NullPointerException ex) {
+    //         autoChooser.setDefaultOption("NULL nothing", new InstantCommand());
+    //         DriverStation.reportError("auto choose NULL somewhere in RobotContainer.java", null);
+    //       }
+    // }else if(DriverStation.getAlliance().equals(Alliance.Blue)){
+    //     try {
+    //         autoChooser.setDefaultOption("NULL nothing", new InstantCommand());
+    //         autoChooser.addOption("Left start", new Start1PickupBlue(swerveBase));
+    //         autoChooser.addOption("Center start", new Start2Balance(swerveBase));
+    //        } catch (NullPointerException ex) {
+    //         autoChooser.setDefaultOption("NULL nothing", new InstantCommand());
+    //         DriverStation.reportError("auto choose NULL somewhere in RobotContainer.java", null);
+    //       }
+    // }else {
+    //     autoChooser.setDefaultOption("NULL nothing", new InstantCommand());
+    // }
 
 }
 }
