@@ -103,7 +103,7 @@ public class RobotContainer {
     configureButtonBindings();
 
     autoChooser.setDefaultOption("Do nothing", new InstantCommand());
-    autoChooser.addOption("Center start", new Start2Balance(swerveBase));
+    autoChooser.addOption("Center start", new Start2Balance(swerveBase).andThen(new AutoBalance(swerveBase)));
     Shuffleboard.getTab("Autonomous").add(autoChooser);
   }
 

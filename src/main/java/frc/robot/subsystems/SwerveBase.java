@@ -344,6 +344,14 @@ public class SwerveBase extends SubsystemBase {
     return navX;
   }
 
+  public double getRoll(){
+    return navX.getRoll();
+  }
+
+  public double getPitch(){
+    return navX.getPitch();
+  }
+
   public void zeroHeading() {
     navX.reset();
     desiredHeading = 0;
