@@ -27,5 +27,7 @@ public class IntakeSubsystem extends SubsystemBase {
     public void stop() {
         intakeController.set(0);
     }
+
+    
 }
  

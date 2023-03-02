@@ -11,7 +11,9 @@ import frc.lib.util.SwerveModuleConstants;
 
 public final class Constants {
     public static final double stickDeadband = 0.1;
-
+public static final class Arm{
+        public static final int armMotorCanID = 1;
+}
     public static final class Swerve {
         public static final int pigeonID = 1;
         public static final boolean invertGyro = false; // Always ensure Gyro is CCW+ CW-
@@ -58,6 +60,7 @@ public final class Constants {
         public static final int drivePeakCurrentLimit = 60;
         public static final double drivePeakCurrentDuration = 0.1;
         public static final boolean driveEnableCurrentLimit = true;
+        
 
         /*
          * These values are used by the drive falcon to ramp in open loop and closed
