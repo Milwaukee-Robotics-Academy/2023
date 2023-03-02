@@ -153,7 +153,7 @@ public final class Constants {
                                         canCoderID, angleOffset);
                 }
 
-                public static final double kTeleDriveMaxSpeedMetersPerSecond = 4.5;
+                public static final double kTeleDriveMaxSpeedMetersPerSecond = 5.4;
                 public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = 3.5;
                 public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3;
                 public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 3;
@@ -161,13 +161,13 @@ public final class Constants {
 
         public static final class AutoConstants { // TODO: The below constants are used in the example auto, and must be
                                                   // tuned to specific robot
-                public static final double kMaxSpeedMetersPerSecond = 3;
-                public static final double kMaxAccelerationMetersPerSecondSquared = 3;
+                public static final double kMaxSpeedMetersPerSecond = 2.2;
+                public static final double kMaxAccelerationMetersPerSecondSquared = 2.2;
                 public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
                 public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
 
-                public static final double kPXController = 1;
-                public static final double kPYController = 1;
+                public static final double kPXController = 10;
+                public static final double kPYController = 10;
                 public static final double kPThetaController = 1;
 
                 /* Constraint for the motion profilied robot angle controller */
