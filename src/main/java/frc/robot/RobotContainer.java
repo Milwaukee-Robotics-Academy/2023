@@ -71,7 +71,7 @@ public class RobotContainer {
             )
         );
         intake.setDefaultCommand(
-                new Intakecommand(intake, () -> driver.getRawAxis(intakeAxis), () -> driver.getRawAxis(outtakeAxis)));
+                new Intakecommand(intake, () -> operator.getRawAxis(intakeAxis), () -> operator.getRawAxis(outtakeAxis)));
    
        // slow = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
         driverUP = new POVButton(driver, 0);
