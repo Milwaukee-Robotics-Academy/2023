@@ -54,7 +54,7 @@ public class RobotContainer {
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
 
-    private final IntakeSubsystem intake = new IntakeSubsystem();
+    private final Intake intake = new Intake();
     SendableChooser<Command> autoChooser = new SendableChooser<>();     
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
