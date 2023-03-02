@@ -1,8 +1,12 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -51,7 +55,7 @@ public class RobotContainer {
     private final Swerve s_Swerve = new Swerve();
 
     private final IntakeSubsystem intake = new IntakeSubsystem();
-
+    SendableChooser<Command> autoChooser = new SendableChooser<>();     
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
@@ -68,6 +72,7 @@ public class RobotContainer {
         );
         intake.setDefaultCommand(
                 new Intakecommand(intake, () -> driver.getRawAxis(intakeAxis), () -> driver.getRawAxis(outtakeAxis)));
+   
        // slow = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
         driverUP = new POVButton(driver, 0);
         driverRIGHT = new POVButton(driver, 90);
@@ -79,6 +84,10 @@ public class RobotContainer {
         operatorLEFT = new POVButton(operator, 270);
         // Configure the button bindings
         configureButtonBindings();
+        
+        autoChooser.setDefaultOption("Do nothing", new InstantCommand());
+        autoChooser.addOption("Center start", new Start2Balance(s_Swerve).andThen(new AutoBalance(s_Swerve)));
+        Shuffleboard.getTab("Autonomous").add(autoChooser);
     }
 
 
@@ -97,6 +106,7 @@ public class RobotContainer {
         }
     }
 
+
     /**
      * Use this method to define your button->command mappings. Buttons can be
      * created by
@@ -107,7 +117,7 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
         /* Driver Buttons */
-        zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
+        zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
 
         driverUP.onTrue(new TurnToAngleCmd(
                 s_Swerve,
@@ -165,7 +175,27 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        // An ExampleCommand will run in autonomous
-        return new exampleAuto(s_Swerve);
+        // Command Selected from Shuffleboard
+       return autoChooser.getSelected();
+       //return new Drive1m(s_Swerve);
     }
+
+    
+    public void updateAutoChoices() {
+        if(DriverStation.getAlliance().equals(Alliance.Red)){
+            try {
+                autoChooser.addOption("Left start - Red", new Start1PickupRed(s_Swerve));
+                autoChooser.addOption("Right start - Red", new Start3PickupRed(s_Swerve));
+              } catch (NullPointerException ex) {
+                DriverStation.reportError("auto choose NULL somewhere in RobotContainer.java", null);
+              }
+        }else if(DriverStation.getAlliance().equals(Alliance.Blue)){
+            try {
+                autoChooser.addOption("Left start - Blue", new Start1PickupBlue(s_Swerve));
+                autoChooser.addOption("Right start - Blue", new Start3PickupBlue(s_Swerve));
+               } catch (NullPointerException ex) {
+                DriverStation.reportError("auto choose NULL somewhere in RobotContainer.java", null);
+              }    
+        }
+      }
 }

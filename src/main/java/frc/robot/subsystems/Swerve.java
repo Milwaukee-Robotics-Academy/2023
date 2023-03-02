@@ -31,7 +31,7 @@ private double desiredHeading;
 
     public Swerve() {
 
-        zeroGyro();
+        zeroHeading();
 
         mSwerveMods = new SwerveModule[] {
             new SwerveModule(0, Constants.Swerve.Mod0.constants),
@@ -90,6 +90,9 @@ private double desiredHeading;
         return swerveOdometry.getPoseMeters();
     }
 
+    public SwerveDriveKinematics getKinematics(){
+        return Constants.Swerve.swerveKinematics;
+    }
     public void resetOdometry(Pose2d pose) {
         swerveOdometry.resetPosition(getYaw(), getModulePositions(), pose);
     }
@@ -110,7 +113,7 @@ private double desiredHeading;
         return positions;
     }
 
-    public void zeroGyro(){
+    public void zeroHeading(){
         gyro.zeroYaw();
         desiredHeading = 0;
     }
@@ -118,7 +121,13 @@ private double desiredHeading;
     public Rotation2d getYaw() {
         return (Constants.Swerve.invertGyro) ? Rotation2d.fromDegrees(360 - gyro.getYaw()) : Rotation2d.fromDegrees(gyro.getYaw()*-1);
     }
-
+    public double getPitch() {
+        return gyro.getPitch();
+    }
+    public double getRoll() {
+        return gyro.getRoll();
+    }
+    
     public void resetModulesToAbsolute(){
         for(SwerveModule mod : mSwerveMods){
             mod.resetToAbsolute();
