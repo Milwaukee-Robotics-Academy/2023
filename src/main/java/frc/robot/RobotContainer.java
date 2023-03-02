@@ -36,6 +36,7 @@ public class RobotContainer {
     /* Driver Buttons */
     private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value);
     private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
+    private final JoystickButton slow = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
 
     public final POVButton driverUP;
     public final POVButton driverDOWN;
@@ -67,7 +68,7 @@ public class RobotContainer {
         );
         intake.setDefaultCommand(
                 new Intakecommand(intake, () -> driver.getRawAxis(intakeAxis), () -> driver.getRawAxis(outtakeAxis)));
-        slow = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
+       // slow = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
         driverUP = new POVButton(driver, 0);
         driverRIGHT = new POVButton(driver, 90);
         driverDOWN = new POVButton(driver, 180);
@@ -80,13 +81,7 @@ public class RobotContainer {
         configureButtonBindings();
     }
 
-    public double speedReduction() {
-        if (driver.getRawButtonPressed(XboxController.Button.kRightBumper.value)){
-          return 0.4;
-        } else {
-          return 1.0;
-        }
-      }
+
     /**
      * Return how much the speed should be reduced.
      * 
