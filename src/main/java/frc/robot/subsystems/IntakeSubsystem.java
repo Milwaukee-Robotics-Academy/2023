@@ -1,17 +1,17 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class IntakeSubsystem extends SubsystemBase {
-//    private Spark intakeController;
-    private PWMSparkMax intakeController;
 
-    public IntakeSubsystem()
-    {
-//        intakeController = new Spark(99);
-        intakeController = new PWMSparkMax(0);
+    public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM, maxVel, minVel, maxAcc, allowedErr;
+    private final CANSparkMax intakeController = new CANSparkMax(Constants.Intake.motorCanID, MotorType.kBrushed);
+
+    public IntakeSubsystem(){
     }
 
     public void intake()
@@ -24,6 +24,9 @@ public class IntakeSubsystem extends SubsystemBase {
         intakeController.set(-1);
     }
 
+    public void run(double speed){
+        intakeController.set(speed);
+    }
     public void stop() {
         intakeController.set(0);
     }
