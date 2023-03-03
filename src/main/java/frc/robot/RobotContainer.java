@@ -36,11 +36,17 @@ public class RobotContainer {
     private final int rotationAxis = XboxController.Axis.kRightX.value;
     private final int intakeAxis = XboxController.Axis.kLeftTrigger.value;
     private final int outtakeAxis = XboxController.Axis.kRightTrigger.value;
+    private final int armAxis = XboxController.Axis.kRightY.value;
     
     /* Driver Buttons */
     private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value);
     private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
     private final JoystickButton slow = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
+    private final JoystickButton intakeButton = new JoystickButton(operator, XboxController.Button.kRightBumper.value);
+    private final JoystickButton outakeButton = new JoystickButton(operator, XboxController.Button.kLeftBumper.value);
+    private final JoystickButton leftAnalog = new JoystickButton(operator, XboxController.Button.kLeftStick.value); 
+
+
 
     public final POVButton driverUP;
     public final POVButton driverDOWN;

@@ -14,10 +14,14 @@ public final class Constants {
 
         public static final class Intake {
                 public static final int motorCanID = 1;
+                public static final double speedscale = 0.5;
+                
+
         }
 
         public static final class Arm {
                 public static final int armMotorCanID = 1;
+                public static final double armMax = 0.3;
         }
 
         public static final class Swerve {

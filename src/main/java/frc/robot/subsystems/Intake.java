@@ -18,21 +18,23 @@ public class Intake extends SubsystemBase{
 
     }
 
-    public void intake()
+    public void intake(double speed)
     {
-        intakeController.set(1.0);
+        intakeController.set(speed);
+
+
     }
     
-    public void outtake()
+    public void outtake(double speed)
     {
-     //   intakeController.set(-1);
+        intakeController.set(-speed);
     }
 
     public void run(double speed){
       //  intakeController.set(speed);
     }
     public void stop() {
-      //  intakeController.set(0);
+        intakeController.set(0);
     }
 
     
