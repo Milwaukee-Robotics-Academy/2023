@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.XboxController.Axis;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -45,6 +46,7 @@ public class RobotContainer {
     private final JoystickButton intakeButton = new JoystickButton(operator, XboxController.Button.kRightBumper.value);
     private final JoystickButton outakeButton = new JoystickButton(operator, XboxController.Button.kLeftBumper.value);
     private final JoystickButton leftAnalog = new JoystickButton(operator, XboxController.Button.kLeftStick.value); 
+    private final JoystickButton armButton = new JoystickButton(operator, XboxController.Button.kRightStick.value);
 
 
 
@@ -61,6 +63,7 @@ public class RobotContainer {
     private final Swerve s_Swerve = new Swerve();
 
     private final Intake intake = new Intake();
+    private final Arm arm = new Arm();
     SendableChooser<Command> autoChooser = new SendableChooser<>();     
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -78,6 +81,7 @@ public class RobotContainer {
         );
         intake.setDefaultCommand(
                 new Intakecommand(intake, () -> operator.getRawAxis(intakeAxis), () -> operator.getRawAxis(outtakeAxis)));
+        arm.setDefaultCommand(new ArmCommand(arm, () -> operator.getRawAxis(armAxis)));
    
        // slow = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
         driverUP = new POVButton(driver, 0);

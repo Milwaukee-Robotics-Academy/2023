@@ -13,14 +13,15 @@ public final class Constants {
         public static final double stickDeadband = 0.1;
 
         public static final class Intake {
-                public static final int motorCanID = 1;
+                public static final int motorCanID = 13;
                 public static final double speedscale = 0.5;
                 
 
         }
 
         public static final class Arm {
-                public static final int armMotorCanID = 1;
+                public static final int armMotorCanID = 14
+                ;
                 public static final double armMax = 0.3;
         }
 
