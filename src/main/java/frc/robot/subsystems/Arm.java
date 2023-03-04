@@ -9,7 +9,6 @@ import frc.robot.Constants;
 public class Arm extends SubsystemBase {
 
 
-    private static final int deviceID = 1;
     public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM, maxVel, minVel, maxAcc, allowedErr;
     private final CANSparkMax armMotor = new CANSparkMax(Constants.Arm.armMotorCanID, MotorType.kBrushless);
 
