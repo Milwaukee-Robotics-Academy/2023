@@ -8,8 +8,7 @@ import frc.robot.subsystems.Swerve;
 
 public class Start1PickupBlue extends DriveSegment {
     public Start1PickupBlue(Swerve swerve){
-        super(swerve, 
-        List.of(WAYPOINT_START1.getTranslation(), BLUE_WAYPOINT_RIGHT_OF_CS.getTranslation(),WAYPOINT_GP1.getTranslation()),
+        super(swerve,  List.of(WAYPOINT_START1.getTranslation(), BLUE_WAYPOINT_RIGHT_OF_CS.getTranslation(),WAYPOINT_GP1.getTranslation()),
             WAYPOINT_START1.getRotation(),
             WAYPOINT_GP1.getRotation(),
             false,

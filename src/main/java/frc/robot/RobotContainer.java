@@ -80,7 +80,7 @@ public class RobotContainer {
             )
         );
         intake.setDefaultCommand(
-                new Intakecommand(intake, () -> operator.getRawAxis(intakeAxis), () -> operator.getRawAxis(outtakeAxis)));
+new Intakecommand(intake, () -> operator.getRawAxis(intakeAxis), () -> operator.getRawAxis(outtakeAxis)));
         arm.setDefaultCommand(new ArmCommand(arm, () -> operator.getRawAxis(armAxis)));
    
        // slow = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
@@ -98,6 +98,10 @@ public class RobotContainer {
         autoChooser.setDefaultOption("Do nothing", new InstantCommand());
         autoChooser.addOption("Center start", new Start2Balance(s_Swerve).andThen(new AutoBalance(s_Swerve)));
         Shuffleboard.getTab("Autonomous").add(autoChooser);
+
+        // autoChooser.addOption("PickUpCube Automatically", new TwoCube(s_Swerve, intake));
+        // Shuffleboard.getTab("Autonomous").add(autoChooser);
+
     }
 
 
