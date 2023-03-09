@@ -97,6 +97,7 @@ new Intakecommand(intake, () -> operator.getRawAxis(intakeAxis), () -> operator.
         
         autoChooser.setDefaultOption("Do nothing", new InstantCommand());
         autoChooser.addOption("Center start", new Start2Balance(s_Swerve).andThen(new AutoBalance(s_Swerve)));
+        autoChooser.addOption("Drive 1m", new Drive1m(s_Swerve));
         Shuffleboard.getTab("Autonomous").add(autoChooser);
 
         // autoChooser.addOption("PickUpCube Automatically", new TwoCube(s_Swerve, intake));
