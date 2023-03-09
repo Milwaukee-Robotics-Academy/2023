@@ -22,7 +22,7 @@ public class Arm extends SubsystemBase {
         armMotor.set(0.5);
     }
 
-    public void moveDown() {
+    public void moveDown() {                     
         armMotor.set(-0.5);
     }
 
