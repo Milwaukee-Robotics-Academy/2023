@@ -98,7 +98,7 @@ new Intakecommand(intake, () -> operator.getRawAxis(intakeAxis), () -> operator.
         
         autoChooser.setDefaultOption("Do nothing", new InstantCommand());
         autoChooser.addOption("Center start", new MoveArmDown(arm).withTimeout(0.5)
-        .andThen(new IntakeOut(intake).withTimeout(1))
+        .andThen(new IntakeOut(intake).withTimeout(2))
         .andThen(new Start2Balance(s_Swerve))
         .andThen(new AutoBalance(s_Swerve))
 
