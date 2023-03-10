@@ -102,6 +102,11 @@ new Intakecommand(intake, () -> operator.getRawAxis(intakeAxis), () -> operator.
         .andThen(new Start2Balance(s_Swerve))
         .andThen(new AutoBalance(s_Swerve))
         );
+        autoChooser.addOption("Short Side Start", new MoveArmDown(arm).withTimeout(0.5)
+        .andThen(new IntakeOut(intake).withTimeout(1))
+        .andThen(new Start2Balance(s_Swerve))
+      
+        );
         // .andThen(new IntakeOut(intake).withTimeout(1))
         // .andThen(new CenterReverse(s_Swerve, arm, intake));
 
