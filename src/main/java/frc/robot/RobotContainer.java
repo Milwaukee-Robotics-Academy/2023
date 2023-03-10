@@ -101,6 +101,12 @@ new Intakecommand(intake, () -> operator.getRawAxis(intakeAxis), () -> operator.
         .andThen(new IntakeOut(intake).withTimeout(1))
         .andThen(new Start2Balance(s_Swerve))
         .andThen(new AutoBalance(s_Swerve))
+
+        );
+        autoChooser.addOption("Short Side Start", new MoveArmDown(arm).withTimeout(0.5)
+        .andThen(new IntakeOut(intake).withTimeout(1))
+        .andThen(new Start2Balance(s_Swerve))
+        .andThen(() -> s_Swerve.zeroHeading(180))
         );
         // .andThen(new IntakeOut(intake).withTimeout(1))
         // .andThen(new CenterReverse(s_Swerve, arm, intake));
@@ -202,7 +208,9 @@ new Intakecommand(intake, () -> operator.getRawAxis(intakeAxis), () -> operator.
        return autoChooser.getSelected();
        //return new Drive1m(s_Swerve);
     }
-
+    public void teleopInit() {
+    
+    }
     
     public void updateAutoChoices() {
         if(DriverStation.getAlliance().equals(Alliance.Red)){

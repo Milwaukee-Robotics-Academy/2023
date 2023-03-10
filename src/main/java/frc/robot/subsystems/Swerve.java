@@ -117,6 +117,11 @@ private double desiredHeading;
         gyro.zeroYaw();
         desiredHeading = 0;
     }
+    public void zeroHeading(double heading){
+        gyro.zeroYaw();
+        gyro.setAngleAdjustment(heading);  
+        desiredHeading = heading;
+    }
 
     public Rotation2d getYaw() {
         return (Constants.Swerve.invertGyro) ? Rotation2d.fromDegrees(360 - gyro.getYaw()) : Rotation2d.fromDegrees(gyro.getYaw()*-1);
