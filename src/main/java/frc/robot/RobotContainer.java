@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.autos.*;
@@ -96,12 +97,19 @@ new Intakecommand(intake, () -> operator.getRawAxis(intakeAxis), () -> operator.
         configureButtonBindings();
         
         autoChooser.setDefaultOption("Do nothing", new InstantCommand());
-        autoChooser.addOption("Center start", new Start2Balance(s_Swerve).andThen(new AutoBalance(s_Swerve)));
-        autoChooser.addOption("Drive 1m", new Drive1m(s_Swerve));
-        Shuffleboard.getTab("Autonomous").add(autoChooser);
+        autoChooser.addOption("Center start", new MoveArmDown(arm).withTimeout(0.5)
+        .andThen(new IntakeOut(intake).withTimeout(1))
+        .andThen(new Start2Balance(s_Swerve))
+        .andThen(new AutoBalance(s_Swerve))
+        );
+        // .andThen(new IntakeOut(intake).withTimeout(1))
+        // .andThen(new CenterReverse(s_Swerve, arm, intake));
+
+        // autoChooser.addOption("Drive 1m", new Drive1m(s_Swerve));
+        // Shuffleboard.getTab("Autonomous").add(autoChooser));
 
         // autoChooser.addOption("PickUpCube Automatically", new TwoCube(s_Swerve, intake));
-        // Shuffleboard.getTab("Autonomous").add(autoChooser);
+         Shuffleboard.getTab("Autonomous").add(autoChooser);
 
     }
 

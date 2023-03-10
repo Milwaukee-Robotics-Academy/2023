@@ -19,11 +19,11 @@ public class Arm extends SubsystemBase {
     }
 
     public void moveUp() {
-        armMotor.set(0.5);
+        armMotor.set(-0.5);
     }
 
     public void moveDown() {                     
-        armMotor.set(-0.5);
+        armMotor.set(0.5);
     }
 
     public void move(double speed){

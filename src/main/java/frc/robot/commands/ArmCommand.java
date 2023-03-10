@@ -8,13 +8,13 @@ import frc.robot.subsystems.Arm;
 
 
 public class ArmCommand   extends CommandBase  {
-   private Arm armSubsystem;
+  private Arm armSubsystem;
    private DoubleSupplier armStick;
    public ArmCommand (Arm armSubsystem, DoubleSupplier armStick) {
        this.armStick = armStick;
        this.armSubsystem = armSubsystem;
        addRequirements(armSubsystem);
-   }
+   } 
 
 public void execute()
 {
