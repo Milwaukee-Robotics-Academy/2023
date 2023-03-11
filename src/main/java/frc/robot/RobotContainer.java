@@ -1,5 +1,7 @@
 package frc.robot;
 
+import javax.management.InstanceAlreadyExistsException;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
@@ -97,15 +99,17 @@ new Intakecommand(intake, () -> operator.getRawAxis(intakeAxis), () -> operator.
         configureButtonBindings();
         
         autoChooser.setDefaultOption("Do nothing", new InstantCommand());
-        autoChooser.addOption("Center start", new MoveArmDown(arm).withTimeout(0.5)
+        autoChooser.addOption("Center start",new MoveArmDown(arm).withTimeout(0.5)
         .andThen(new IntakeOut(intake).withTimeout(2))
-        .andThen(new Start2Balance(s_Swerve))
-        .andThen(new AutoBalance(s_Swerve))
-
+        .andThen(new DriveDistance(s_Swerve,-2.5))
+        .andThen(() -> s_Swerve.zeroHeading(180))
         );
-        autoChooser.addOption("Short Side Start", new MoveArmDown(arm).withTimeout(0.5)
-        .andThen(new IntakeOut(intake).withTimeout(1))
-        .andThen(new Start2Balance(s_Swerve))
+        autoChooser.addOption("Score and then Do nothing", new MoveArmDown(arm).withTimeout(0.5)
+        .andThen(new IntakeOut(intake).withTimeout(2)));
+
+        autoChooser.addOption("Long Side Start", new MoveArmDown(arm).withTimeout(0.5)
+        .andThen(new IntakeOut(intake).withTimeout(2))
+        .andThen(new LongSide(s_Swerve))
         .andThen(() -> s_Swerve.zeroHeading(180))
         );
         // .andThen(new IntakeOut(intake).withTimeout(1))
