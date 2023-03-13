@@ -107,6 +107,12 @@ new Intakecommand(intake, () -> operator.getRawAxis(intakeAxis), () -> operator.
         autoChooser.addOption("Score and then Do nothing", new MoveArmDown(arm).withTimeout(0.5)
         .andThen(new IntakeOut(intake).withTimeout(2)));
 
+        autoChooser.addOption("Short Side Start", new MoveArmDown(arm).withTimeout(0.5)
+        .andThen(new IntakeOut(intake).withTimeout(2))
+        .andThen(new Start2Balance(s_Swerve))
+        .andThen(() -> s_Swerve.zeroHeading(180))
+        );
+
         autoChooser.addOption("Long Side Start", new MoveArmDown(arm).withTimeout(0.5)
         .andThen(new IntakeOut(intake).withTimeout(2))
         .andThen(new LongSide(s_Swerve))
