@@ -13,6 +13,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.CANCoder;
+import com.ctre.phoenix.sensors.CANCoderStatusFrame;
 
 public class SwerveModule {
     public int moduleNumber;
@@ -115,5 +116,12 @@ public class SwerveModule {
             Conversions.falconToMeters(mDriveMotor.getSelectedSensorPosition(), Constants.Swerve.wheelCircumference, Constants.Swerve.driveGearRatio), 
             getAngle()
         );
+    }
+    public void limitCanCoderTraffic(Boolean limit){
+        if(limit){
+            angleEncoder.setStatusFramePeriod(CANCoderStatusFrame.SensorData, 100, 100);
+        } else {
+            angleEncoder.setStatusFramePeriod(CANCoderStatusFrame.SensorData, 10, 10);
+        }
     }
 }

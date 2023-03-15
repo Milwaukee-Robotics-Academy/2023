@@ -142,7 +142,14 @@ private double desiredHeading;
     @Override
     public void periodic(){
         if (DriverStation.isDisabled()){
+            for(SwerveModule mod : mSwerveMods){
+                mod.limitCanCoderTraffic(false);
+            }
             resetModulesToAbsolute();
+        } else {
+            for(SwerveModule mod : mSwerveMods){
+                mod.limitCanCoderTraffic(true);
+            }
         }
 
         Logger.getInstance().recordOutput("Robot",(swerveOdometry.update(getYaw(), getModulePositions())));  
