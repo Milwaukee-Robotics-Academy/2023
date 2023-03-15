@@ -25,7 +25,7 @@ public class Arm extends SubsystemBase {
     }
 
     public void moveDown() {     
-        if(bottomlimitSwitch.get()){
+        if(!bottomlimitSwitch.get()){
             armMotor.set(0);
         } else {
             armMotor.set(0.5);
@@ -34,7 +34,11 @@ public class Arm extends SubsystemBase {
     }
 
     public void move(double speed){
-        armMotor.set(speed);
+        if(!bottomlimitSwitch.get() && speed>0){
+            armMotor.set(0);
+        } else {
+            armMotor.set(speed);
+        }     
     }
     public void stop() {
         armMotor.set(0);
