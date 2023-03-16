@@ -18,6 +18,8 @@ public class Arm extends SubsystemBase {
     public Arm() {
         armMotor.setInverted(true);
         armMotor.setIdleMode(IdleMode.kBrake);
+        armMotor.setSmartCurrentLimit(40);
+        armMotor.burnFlash();
     }
 
     public void moveUp() {
