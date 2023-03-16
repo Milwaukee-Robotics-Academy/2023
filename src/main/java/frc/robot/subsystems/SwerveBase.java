@@ -15,6 +15,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -135,10 +136,18 @@ public class SwerveBase extends SubsystemBase {
     driftCorrectionPID.enableContinuousInput(-180, 180);
 
   }
+public void initRotationOffset() {
+  frontLeft.initRotationOffset();
+  frontRight.initRotationOffset();
+  rearLeft.initRotationOffset();
+  rearRight.initRotationOffset();
 
+}
   @Override
   public void periodic() {
-
+if (DriverStation.isDisabled()){
+  initRotationOffset();
+}
     // update the odometry every 20ms
     odometry.update(getHeading(), getModulePositions());
 
