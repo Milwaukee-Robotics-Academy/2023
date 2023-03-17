@@ -153,12 +153,17 @@ private double desiredHeading;
         }
 
         Logger.getInstance().recordOutput("Robot",(swerveOdometry.update(getYaw(), getModulePositions())));  
-        SmartDashboard.putData(gyro);
-        SmartDashboard.putNumber("Yaw",getYaw().getDegrees());
+        Shuffleboard.getTab("Swerve").add("Gyro",gyro).withSize(2,2).withPosition(0,0);
+       // SmartDashboard.putNumber("Yaw",getYaw().getDegrees());
         for(SwerveModule mod : mSwerveMods){
-            SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Cancoder", mod.getCanCoder().getDegrees());
-            SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Integrated", mod.getPosition().angle.getDegrees());
-            SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);    
+            ShuffleboardLayout currentLayout = Shuffleboard.getTab("Swerve")
+                .getLayout("Mod"+ mod.moduleNumber, BuiltInLayouts.kList)
+                .withSize(2,3)
+                .withPosition(2+mod.moduleNumber,0)
+                .withProperties(Map.of("Label position", "HIDDEN"));
+            currentLayout.add("Mod " + mod.moduleNumber + " Cancoder", mod.getCanCoder().getDegrees());
+            currentLayout.add("Mod " + mod.moduleNumber + " Integrated", mod.getPosition().angle.getDegrees());
+            currentLayout.add("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);    
         }
     }
 }

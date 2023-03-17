@@ -173,7 +173,7 @@ public class RobotContainer {
                 true,
                 false))
                 );
-        Shuffleboard.getTab("Autonomous").add(autoChooser);
+        Shuffleboard.getTab("Autonomous").add(autoChooser).withSize(2,1);
 
     }
 
