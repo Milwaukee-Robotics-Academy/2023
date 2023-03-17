@@ -25,6 +25,7 @@ public class SwerveModule {
     private LazyTalonFX mDriveMotor;
     private CANCoder angleEncoder;
 
+
     SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(Constants.Swerve.driveKS, Constants.Swerve.driveKV, Constants.Swerve.driveKA);
 
     public SwerveModule(int moduleNumber, SwerveModuleConstants moduleConstants){
@@ -120,9 +121,9 @@ public class SwerveModule {
     }
     public void limitCanCoderTraffic(Boolean limit){
         if(limit){
-            angleEncoder.setStatusFramePeriod(CANCoderStatusFrame.SensorData, 100, 100);
+      //      angleEncoder.setStatusFramePeriod(CANCoderStatusFrame.SensorData, 10, 10);
         } else {
-            angleEncoder.setStatusFramePeriod(CANCoderStatusFrame.SensorData, 10, 10);
+       //     angleEncoder.setStatusFramePeriod(CANCoderStatusFrame.SensorData, 10, 10);
         }
     }
 }

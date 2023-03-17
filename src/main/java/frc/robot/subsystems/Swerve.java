@@ -15,6 +15,8 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
@@ -29,6 +31,10 @@ import frc.robot.SwerveModule;
 public class Swerve extends SubsystemBase {
     public SwerveDriveOdometry swerveOdometry;
     public SwerveModule[] mSwerveMods;
+    public GenericEntry[] canCoderValues;
+    public GenericEntry[] rotationValues;
+    public GenericEntry[] velocityValues;
+    
     private final AHRS gyro = new AHRS(SPI.Port.kMXP, (byte) 200);
 private PIDController driftCorrectionPID = new PIDController(0.07, 0.00, 0,0.04);
 private double previousXY;
@@ -44,7 +50,17 @@ private double desiredHeading;
             new SwerveModule(2, Constants.Swerve.Mod2.constants),
             new SwerveModule(3, Constants.Swerve.Mod3.constants)
         };
+        canCoderValues = new GenericEntry[4];
+        rotationValues = new GenericEntry[4];
+        velocityValues = new GenericEntry[4];
 
+        Shuffleboard.getTab("Swerve").add("navx",gyro).withSize(2,2).withPosition(0,0);
+
+        for(SwerveModule mod : mSwerveMods){
+            canCoderValues[mod.moduleNumber] = Shuffleboard.getTab("Swerve").add("Mod " + mod.moduleNumber + " Cancoder", mod.getCanCoder().getDegrees()).withPosition((2+mod.moduleNumber),0).getEntry();
+            rotationValues[mod.moduleNumber] = Shuffleboard.getTab("Swerve").add("Mod " + mod.moduleNumber + " Integrated", mod.getPosition().angle.getDegrees()).withPosition((2+mod.moduleNumber),1).getEntry();
+            velocityValues[mod.moduleNumber] = Shuffleboard.getTab("Swerve").add("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond).withPosition((2+mod.moduleNumber),2).getEntry();    
+        }
         swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getYaw(), getModulePositions());
     }
 
@@ -157,18 +173,13 @@ private double desiredHeading;
             }
         }
 
-        Logger.getInstance().recordOutput("Robot",(swerveOdometry.update(getYaw(), getModulePositions())));  
-        Shuffleboard.getTab("Swerve").add("Gyro",gyro).withSize(2,2).withPosition(0,0);
-       // SmartDashboard.putNumber("Yaw",getYaw().getDegrees());
         for(SwerveModule mod : mSwerveMods){
-            ShuffleboardLayout currentLayout = Shuffleboard.getTab("Swerve")
-                .getLayout("Mod"+ mod.moduleNumber, BuiltInLayouts.kList)
-                .withSize(2,3)
-                .withPosition(2+mod.moduleNumber,0)
-                .withProperties(Map.of("Label position", "HIDDEN"));
-            currentLayout.add("Mod " + mod.moduleNumber + " Cancoder", mod.getCanCoder().getDegrees());
-            currentLayout.add("Mod " + mod.moduleNumber + " Integrated", mod.getPosition().angle.getDegrees());
-            currentLayout.add("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);    
+            canCoderValues[mod.moduleNumber].setDouble(mod.getCanCoder().getDegrees());
+            rotationValues[mod.moduleNumber].setDouble(mod.getPosition().angle.getDegrees());
+            velocityValues[mod.moduleNumber].setDouble(mod.getState().speedMetersPerSecond);    
         }
+        Logger.getInstance().recordOutput("Robot",(swerveOdometry.update(getYaw(), getModulePositions())));  
+               // SmartDashboard.putNumber("Yaw",getYaw().getDegrees());
+
     }
 }
