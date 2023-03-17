@@ -36,11 +36,11 @@ public class SwerveModule {
         configAngleEncoder();
 
         /* Angle Motor Config */
-        mAngleMotor = new TalonFX(moduleConstants.angleMotorID);
+        mAngleMotor = new LazyTalonFX(moduleConstants.angleMotorID);
         configAngleMotor();
 
         /* Drive Motor Config */
-        mDriveMotor = new TalonFX(moduleConstants.driveMotorID);
+        mDriveMotor = new LazyTalonFX(moduleConstants.driveMotorID);
         configDriveMotor();
 
         lastAngle = getState().angle;
