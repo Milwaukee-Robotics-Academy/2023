@@ -85,6 +85,10 @@ public class SwerveModule {
         mAngleMotor.setSelectedSensorPosition(absolutePosition);
     }
 
+    public Boolean isSetAbsolute(){
+        return (Conversions.degreesToFalcon(getCanCoder().getDegrees() - angleOffset.getDegrees(), Constants.Swerve.angleGearRatio) == getPosition().angle.getDegrees());
+    }
+
     private void configAngleEncoder(){        
         angleEncoder.configFactoryDefault();
         angleEncoder.configAllSettings(Robot.ctreConfigs.swerveCanCoderConfig);

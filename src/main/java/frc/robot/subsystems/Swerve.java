@@ -16,7 +16,6 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.GenericEntry;
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
@@ -36,7 +35,7 @@ public class Swerve extends SubsystemBase {
     public GenericEntry[] velocityValues;
     
     private final AHRS gyro = new AHRS(SPI.Port.kMXP, (byte) 200);
-private PIDController driftCorrectionPID = new PIDController(0.07, 0.00, 0,0.04);
+private PIDController driftCorrectionPID = new PIDController(0.4, 0.00, 0.01,0.04);
 private double previousXY;
 private double desiredHeading;
 
@@ -78,10 +77,15 @@ private double desiredHeading;
          * see: https://www.chiefdelphi.com/t/mk4-drift/403628/28
          */
         double xy = Math.abs(speeds.vxMetersPerSecond) + Math.abs(speeds.vyMetersPerSecond);
-        if(Math.abs(speeds.omegaRadiansPerSecond) > 0.0 || previousXY <= 0) desiredHeading = getPose().getRotation().getDegrees();
+        if (Math.abs(rotation)>0){
+
+        }
+        if((Math.abs(speeds.omegaRadiansPerSecond) > 0.0 || previousXY <= 0) && Math.abs(rotation)>0) desiredHeading = getPose().getRotation().getDegrees();
         else if(xy > 0) speeds.omegaRadiansPerSecond += driftCorrectionPID.calculate(getPose().getRotation().getDegrees(), desiredHeading);
         previousXY = xy;
-
+        SmartDashboard.putNumber("speeds.omegaRadiansPerSecond", speeds.omegaRadiansPerSecond);
+        SmartDashboard.putNumber("rotation", rotation);
+        SmartDashboard.putNumber("desired Heading", desiredHeading);
         SwerveModuleState[] swerveModuleStates =
             Constants.Swerve.swerveKinematics.toSwerveModuleStates(
                 fieldRelative ? speeds
@@ -134,6 +138,9 @@ private double desiredHeading;
         return positions;
     }
 
+    public void setDesiredHeading(double desired){
+        desiredHeading = desired;
+    }
     public void zeroHeading(){
         gyro.zeroYaw();
         desiredHeading = 0;

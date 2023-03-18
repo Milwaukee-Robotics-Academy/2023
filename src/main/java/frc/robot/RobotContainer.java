@@ -50,6 +50,7 @@ public class RobotContainer {
     private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value);
     private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
     private final JoystickButton slow = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
+    private final JoystickButton modAbsoluteOffSet = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
     private final JoystickButton intakeButton = new JoystickButton(operator, XboxController.Button.kRightBumper.value);
     private final JoystickButton outakeButton = new JoystickButton(operator, XboxController.Button.kLeftBumper.value);
     private final JoystickButton leftAnalog = new JoystickButton(operator, XboxController.Button.kLeftStick.value);
@@ -153,7 +154,7 @@ public class RobotContainer {
         /**
          * Long Side Start Pick up 2nd Cube
          */
-        autoChooser.addOption("Long Side Start", new MoveArmDown(arm).withTimeout(0.5)
+        autoChooser.addOption("Long Side Start Double", new MoveArmDown(arm).withTimeout(0.5)
         .andThen(new IntakeOut(intake).withTimeout(2))
         .andThen(new DriveSegment(s_Swerve,
                 List.of(
@@ -252,6 +253,8 @@ public class RobotContainer {
                 () -> driver.getRawAxis(translationAxis),
                 () -> driver.getRawAxis(strafeAxis),
                 () -> speedReduction()));
+
+        modAbsoluteOffSet.onTrue(new InstantCommand(()-> s_Swerve.resetModulesToAbsolute()));
     }
 
     /**
