@@ -65,7 +65,7 @@ public final class Constants {
 
                 /* Swerve Current Limiting */
                 public static final int angleContinuousCurrentLimit = 25;
-                public static final int anglePeakCurrentLimit = 40;
+                public static final int anglePeakCurrentLimit = 40; 
                 public static final double anglePeakCurrentDuration = 0.1;
                 public static final boolean angleEnableCurrentLimit = true;
 
@@ -104,7 +104,7 @@ public final class Constants {
 
                 /* Swerve Profiling Values */
                 /** Meters per Second */
-                public static final double maxSpeed = 4.5; // TODO: This must be tuned to specific robot
+                public static final double maxSpeed = 5.4; // TODO: This must be tuned to specific robot
                 /** Radians per Second */
                 public static final double maxAngularVelocity = 10.0; // TODO: This must be tuned to specific robot
 
@@ -115,18 +115,20 @@ public final class Constants {
                 /* Module Specific Constants */
                 /* Front Left Module - Module 0 */
                 public static final class Mod0 {
+                        public static final String modName = "Front Left";
                         public static final int driveMotorID = 2;
                         public static final int angleMotorID = 4;
                         public static final int canCoderID = 12;
                         public static final Rotation2d angleOffset = Rotation2d.fromDegrees(121.90);
                         public static final SwerveModuleConstants constants = new SwerveModuleConstants(driveMotorID,
                                         angleMotorID,
-                                        canCoderID, angleOffset);
+                                        canCoderID, angleOffset); 
 
                 }
 
                 /* Front Right Module - Module 1 */
                 public static final class Mod1 {
+                        public static final String modName = "Front Right";
                         public static final int driveMotorID = 1;
                         public static final int angleMotorID = 7;
                         public static final int canCoderID = 9;
@@ -138,6 +140,7 @@ public final class Constants {
 
                 /* Back Left Module - Module 2 */
                 public static final class Mod2 {
+                        public static final String modName = "Back Left";
                         public static final int driveMotorID = 6;
                         public static final int angleMotorID = 5;
                         public static final int canCoderID = 11;
@@ -149,6 +152,7 @@ public final class Constants {
 
                 /* Back Right Module - Module 3 */
                 public static final class Mod3 {
+                        public static final String modName = "Back Right";
                         public static final int driveMotorID = 8;
                         public static final int angleMotorID = 3;
                         public static final int canCoderID = 10;
@@ -166,7 +170,7 @@ public final class Constants {
 
         public static final class AutoConstants { // TODO: The below constants are used in the example auto, and must be
                                                   // tuned to specific robot
-                public static final double kMaxSpeedMetersPerSecond = 2.2;
+                public static final double kMaxSpeedMetersPerSecond = 3.2;
                 public static final double kMaxAccelerationMetersPerSecondSquared = 2.2;
                 public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
                 public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
@@ -178,5 +182,10 @@ public final class Constants {
                 /* Constraint for the motion profilied robot angle controller */
                 public static final TrapezoidProfile.Constraints kThetaControllerConstraints = new TrapezoidProfile.Constraints(
                                 kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
+                
+                /** 
+                 * These are the waypoints we need to drive to
+                 */
+                        
         }
 }

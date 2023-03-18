@@ -18,9 +18,17 @@ public class  IntakeOut extends CommandBase {
         m_intake.outtake(0.5);
         
     }  
-    public void end() {  
-       m_intake.outtake(0.0);
+    @Override
+    public void end(boolean interrupted) {
+        m_intake.outtake(0.0);
     }
+  
+    // Returns true when the command should end.
+    @Override
+    public boolean isFinished() {
+      return false;
+    }
+
 }
 
 
