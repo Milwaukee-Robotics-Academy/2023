@@ -35,7 +35,7 @@ public class Swerve extends SubsystemBase {
     public GenericEntry[] velocityValues;
     
     private final AHRS gyro = new AHRS(SPI.Port.kMXP, (byte) 200);
-private PIDController driftCorrectionPID = new PIDController(0.07, 0.00, 0.01,0.04);
+private PIDController driftCorrectionPID = new PIDController(.5, 0.00, 0.01,0.04);
 private double previousXY = 0;
 private double desiredHeading = 0;
 
