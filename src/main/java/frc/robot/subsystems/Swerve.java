@@ -66,31 +66,19 @@ private double desiredHeading = 0;
 
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
        
-       ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-            translation.getX(), 
-            translation.getY(), 
-            rotation, 
-            getYaw()
-        );
-
+  
         /**
          * TODO: First get the Chassis speeds, run through drift correction then pass
          * see: https://www.chiefdelphi.com/t/mk4-drift/403628/28
          */
-        SmartDashboard.putNumber("X", translation.getX());
-        SmartDashboard.putNumber("Y", translation.getY());
-        SmartDashboard.putNumber("rotation", rotation);
-
-        double xy = Math.abs(speeds.vxMetersPerSecond) + Math.abs(speeds.vyMetersPerSecond);
-        if(Math.abs(speeds.omegaRadiansPerSecond) > 0.0 || previousXY <= 0) desiredHeading = getPose().getRotation().getDegrees();
-        else if(xy > 0) speeds.omegaRadiansPerSecond += driftCorrectionPID.calculate(getPose().getRotation().getDegrees(), desiredHeading);
-        previousXY = xy;
-        
-        SmartDashboard.putNumber("speeds.omegaRadiansPerSecond", speeds.omegaRadiansPerSecond);
-        SmartDashboard.putNumber("desired Heading", desiredHeading);
         SwerveModuleState[] swerveModuleStates =
             Constants.Swerve.swerveKinematics.toSwerveModuleStates(
-                fieldRelative ? speeds
+                fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(
+                                    translation.getX(), 
+                                    translation.getY(), 
+                                    rotation, 
+                                    getYaw()
+                                )
                                 : new ChassisSpeeds(
                                     translation.getX(), 
                                     translation.getY(), 
@@ -102,6 +90,10 @@ private double desiredHeading = 0;
         for(SwerveModule mod : mSwerveMods){
             mod.setDesiredState(swerveModuleStates[mod.moduleNumber], isOpenLoop);
         }
+
+        SmartDashboard.putNumber("X", translation.getX());
+        SmartDashboard.putNumber("Y", translation.getY());
+        SmartDashboard.putNumber("rotation", rotation);
     }
 
     /* Used by SwerveControllerCommand in Auto */
