@@ -210,49 +210,49 @@ public class RobotContainer {
                 0.0,
                 () -> driver.getRawAxis(translationAxis),
                 () -> driver.getRawAxis(strafeAxis),
-                () -> speedReduction()));
+                () -> speedReduction()).withTimeout(1.5));
         driverDOWN.onTrue(new TurnToAngleCmd(
                 s_Swerve,
                 180.0,
                 () -> driver.getRawAxis(translationAxis),
                 () -> driver.getRawAxis(strafeAxis),
-                () -> speedReduction()));
+                () -> speedReduction()).withTimeout(1.5));
         driverRIGHT.onTrue(new TurnToAngleCmd(
                 s_Swerve,
                 -90.0,
                 () -> driver.getRawAxis(translationAxis),
                 () -> driver.getRawAxis(strafeAxis),
-                () -> speedReduction()));
+                () -> speedReduction()).withTimeout(1.5));
         driverLEFT.onTrue(new TurnToAngleCmd(
                 s_Swerve,
                 90.0,
                 () -> driver.getRawAxis(translationAxis),
                 () -> driver.getRawAxis(strafeAxis),
-                () -> speedReduction()));
+                () -> speedReduction()).withTimeout(1.5));
         operatorUP.onTrue(new TurnToAngleCmd(
                 s_Swerve,
                 0.0,
                 () -> driver.getRawAxis(translationAxis),
                 () -> driver.getRawAxis(strafeAxis),
-                () -> speedReduction()));
+                () -> speedReduction()).withTimeout(1.5));
         operatorDOWN.onTrue(new TurnToAngleCmd(
                 s_Swerve,
                 180.0,
                 () -> driver.getRawAxis(translationAxis),
                 () -> driver.getRawAxis(strafeAxis),
-                () -> speedReduction()));
+                () -> speedReduction()).withTimeout(1.5));
         operatorRIGHT.onTrue(new TurnToAngleCmd(
                 s_Swerve,
                 -90.0,
                 () -> driver.getRawAxis(translationAxis),
                 () -> driver.getRawAxis(strafeAxis),
-                () -> speedReduction()));
+                () -> speedReduction()).withTimeout(1.5));
         operatorLEFT.onTrue(new TurnToAngleCmd(
                 s_Swerve,
                 90.0,
                 () -> driver.getRawAxis(translationAxis),
                 () -> driver.getRawAxis(strafeAxis),
-                () -> speedReduction()));
+                () -> speedReduction()).withTimeout(1.5));
 
         modAbsoluteOffSet.onTrue(new InstantCommand(()-> s_Swerve.resetModulesToAbsolute()));
     }

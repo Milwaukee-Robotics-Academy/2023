@@ -35,9 +35,9 @@ public class Swerve extends SubsystemBase {
     public GenericEntry[] velocityValues;
     
     private final AHRS gyro = new AHRS(SPI.Port.kMXP, (byte) 200);
-private PIDController driftCorrectionPID = new PIDController(0.4, 0.00, 0.01,0.04);
-private double previousXY;
-private double desiredHeading;
+private PIDController driftCorrectionPID = new PIDController(0.07, 0.00, 0.01,0.04);
+private double previousXY = 0;
+private double desiredHeading = 0;
 
     public Swerve() {
 
@@ -76,15 +76,16 @@ private double desiredHeading;
          * TODO: First get the Chassis speeds, run through drift correction then pass
          * see: https://www.chiefdelphi.com/t/mk4-drift/403628/28
          */
-        double xy = Math.abs(speeds.vxMetersPerSecond) + Math.abs(speeds.vyMetersPerSecond);
-        if (Math.abs(rotation)>0){
+        SmartDashboard.putNumber("X", translation.getX());
+        SmartDashboard.putNumber("Y", translation.getY());
+        SmartDashboard.putNumber("rotation", rotation);
 
-        }
-        if((Math.abs(speeds.omegaRadiansPerSecond) > 0.0 || previousXY <= 0) && Math.abs(rotation)>0) desiredHeading = getPose().getRotation().getDegrees();
+        double xy = Math.abs(speeds.vxMetersPerSecond) + Math.abs(speeds.vyMetersPerSecond);
+        if(Math.abs(speeds.omegaRadiansPerSecond) > 0.0 || previousXY <= 0) desiredHeading = getPose().getRotation().getDegrees();
         else if(xy > 0) speeds.omegaRadiansPerSecond += driftCorrectionPID.calculate(getPose().getRotation().getDegrees(), desiredHeading);
         previousXY = xy;
+        
         SmartDashboard.putNumber("speeds.omegaRadiansPerSecond", speeds.omegaRadiansPerSecond);
-        SmartDashboard.putNumber("rotation", rotation);
         SmartDashboard.putNumber("desired Heading", desiredHeading);
         SwerveModuleState[] swerveModuleStates =
             Constants.Swerve.swerveKinematics.toSwerveModuleStates(
