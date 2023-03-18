@@ -111,8 +111,8 @@ public class RobotContainer {
                         List.of(
                                 new Translation2d(0, 0),
                                 new Translation2d(2.5, 0)),
-                        new Rotation2d(180),
-                        new Rotation2d(180),
+                        new Rotation2d().fromDegrees(180),
+                        new Rotation2d().fromDegrees(180),
                         true,
                         true))
                 .andThen(new AutoBalance(s_Swerve)));
@@ -132,8 +132,8 @@ public class RobotContainer {
                         List.of(
                                 new Translation2d(0, 0),
                                 new Translation2d(3.1, 0)),
-                        new Rotation2d(180),
-                        new Rotation2d(180),
+                        new Rotation2d().fromDegrees(180),
+                        new Rotation2d().fromDegrees(180),
                         true,
                         true)));
 
@@ -146,8 +146,8 @@ public class RobotContainer {
                         List.of(
                                 new Translation2d(0, 0),
                                 new Translation2d(4.65, 0)),
-                        new Rotation2d(180),
-                        new Rotation2d(180),
+                        new Rotation2d().fromDegrees(180),
+                        new Rotation2d().fromDegrees(180),
                         true,
                         true)));
 
@@ -160,8 +160,8 @@ public class RobotContainer {
                 List.of(
                         new Translation2d(0, 0),
                         new Translation2d(4.65, 0)),
-                new Rotation2d(180),
-                new Rotation2d(180),
+                new Rotation2d().fromDegrees(180),
+                new Rotation2d().fromDegrees(180),
                 false,
                 true))
         .andThen(new IntakeOut(intake).withTimeout(2))
@@ -169,8 +169,8 @@ public class RobotContainer {
                 List.of(
                         new Translation2d(4.65, 0),
                         new Translation2d(5.68, 0)),
-                new Rotation2d(180),
-                new Rotation2d(0),
+                new Rotation2d().fromDegrees(180),
+                new Rotation2d().fromDegrees(0),
                 true,
                 false))
                 );
