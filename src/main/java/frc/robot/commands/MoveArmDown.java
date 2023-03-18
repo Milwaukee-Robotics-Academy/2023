@@ -16,9 +16,18 @@ public class  MoveArmDown extends CommandBase {
     public void execute() {
         armSubsystem.moveDown();
         
-    }  
-    public void end() {  
+    }    
+    
+    // Called once the command ends or is interrupted.
+    @Override
+    public void end(boolean interrupted) {
         armSubsystem.move(0);
+    }
+  
+    // Returns true when the command should end.
+    @Override
+    public boolean isFinished() {
+      return false;
     }
 }
 
