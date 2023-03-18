@@ -32,7 +32,7 @@ private double desiredHeading;
     public Swerve() {
 
         zeroHeading();
-        driftCorrectionPID..enableContinuousInput(-180, 180);
+        driftCorrectionPID.enableContinuousInput(-180, 180);
         mSwerveMods = new SwerveModule[] {
             new SwerveModule(0, Constants.Swerve.Mod0.constants),
             new SwerveModule(1, Constants.Swerve.Mod1.constants),
