@@ -177,14 +177,15 @@ public class RobotContainer {
         
         //Second level scoring - LongSideStart
 
-        autoChooser.addOption("Long Side Start Second Level", new MoveArmDown(arm).withTimeout(0.5)
-        .andThen(new IntakeOut(intake).withTimeout(2))
+        autoChooser.addOption("Long Side Start Second Level", new MoveArmUp(arm).withTimeout(0.5)
+        .andThen(new IntakeOut(intake).withTimeout(4))
+        .andThen(new MoveArmDown(arm)).withTimeout(2)
         .andThen(new DriveSegment(s_Swerve,
         List.of(
                 new Translation2d(0, 0),
                 new Translation2d(4.65, 0)),
-                new Rotation2d().fromDegrees(180),
-                new Rotation2d().fromDegrees(180),
+                new Rotation2d().fromDegrees(0),
+                new Rotation2d().fromDegrees(0),
                 true,
                 false)));
         
