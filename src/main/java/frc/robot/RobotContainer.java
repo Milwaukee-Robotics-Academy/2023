@@ -105,7 +105,7 @@ public class RobotContainer {
         /**
          * Run the Center Start, balance Auto
          */
-        autoChooser.addOption("Center start", new MoveArmDown(arm).withTimeout(0.5)
+        autoChooser.addOption("Center start", new MoveArmDown(arm).withTimeout(0.7)
                 .andThen(new IntakeOut(intake).withTimeout(2))
                 .andThen(new DriveSegment(s_Swerve,
                         List.of(
@@ -120,13 +120,13 @@ public class RobotContainer {
         /**
          * Score And Do Nothing
          */
-        autoChooser.addOption("Score and then Do nothing", new MoveArmDown(arm).withTimeout(0.5)
+        autoChooser.addOption("Score and then Do nothing", new MoveArmDown(arm).withTimeout(0.7)
                 .andThen(new IntakeOut(intake).withTimeout(2)));
 
         /**
          * Short Side Start
          */
-        autoChooser.addOption("Short Side Start", new MoveArmDown(arm).withTimeout(0.5)
+        autoChooser.addOption("Short Side Start", new MoveArmDown(arm).withTimeout(0.7)
                 .andThen(new IntakeOut(intake).withTimeout(2))
                 .andThen(new DriveSegment(s_Swerve,
                         List.of(
@@ -140,7 +140,7 @@ public class RobotContainer {
         /**
          * Long Side Start
          */
-        autoChooser.addOption("Long Side Start", new MoveArmDown(arm).withTimeout(0.5)
+        autoChooser.addOption("Long Side Start", new MoveArmDown(arm).withTimeout(0.7)
                 .andThen(new IntakeOut(intake).withTimeout(2))
                 .andThen(new DriveSegment(s_Swerve,
                         List.of(
@@ -154,7 +154,7 @@ public class RobotContainer {
         /**
          * Long Side Start Pick up 2nd Cube
          */
-        autoChooser.addOption("Long Side Start Double", new MoveArmDown(arm).withTimeout(0.5)
+        autoChooser.addOption("Long Side Start Double", new MoveArmDown(arm).withTimeout(0.7)
         .andThen(new IntakeOut(intake).withTimeout(2))
         .andThen(new DriveSegment(s_Swerve,
                 List.of(
@@ -177,14 +177,15 @@ public class RobotContainer {
         
         //Second level scoring - LongSideStart
 
-        autoChooser.addOption("Long Side Start Second Level", new MoveArmDown(arm).withTimeout(0.5)
-        .andThen(new IntakeOut(intake).withTimeout(2))
+        autoChooser.addOption("Long Side Start Second Level", new MoveArmUp(arm).withTimeout(0.5)
+        .andThen(new IntakeOut(intake).withTimeout(4))
+        .andThen(new MoveArmDown(arm)).withTimeout(2)
         .andThen(new DriveSegment(s_Swerve,
         List.of(
                 new Translation2d(0, 0),
                 new Translation2d(4.65, 0)),
-                new Rotation2d().fromDegrees(180),
-                new Rotation2d().fromDegrees(180),
+                new Rotation2d().fromDegrees(0),
+                new Rotation2d().fromDegrees(0),
                 true,
                 false)));
         
