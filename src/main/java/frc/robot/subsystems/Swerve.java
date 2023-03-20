@@ -63,10 +63,12 @@ public class Swerve extends SubsystemBase {
      * Drift Correction driving
      */
     public void drive(ChassisSpeeds speeds){
-        SwerveModuleState[] states = getKinematics().toSwerveModuleStates(speeds);
-        SwerveDriveKinematics.desaturateWheelSpeeds(states, Constants.Swerve.maxSpeed);
+        SwerveModuleState[] states = Constants.Swerve.swerveKinematics.toSwerveModuleStates(speeds);
+      //  SwerveDriveKinematics.desaturateWheelSpeeds(states, Constants.Swerve.maxSpeed);
         setModuleStates(states);
     }
+
+
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
        
        ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(
@@ -97,7 +99,7 @@ public class Swerve extends SubsystemBase {
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, Constants.Swerve.maxSpeed);
         
         for(SwerveModule mod : mSwerveMods){
-            mod.setDesiredState(desiredStates[mod.moduleNumber], false);
+            mod.setDesiredState(desiredStates[mod.moduleNumber], true);
         }
     }    
 

@@ -44,11 +44,11 @@ public class Drive extends CommandBase {
         double translationVal = MathUtil.applyDeadband(translationSup.getAsDouble(), Constants.stickDeadband);
         double strafeVal = MathUtil.applyDeadband(strafeSup.getAsDouble(), Constants.stickDeadband);
         double rotationVal = MathUtil.applyDeadband(rotationSup.getAsDouble(), Constants.stickDeadband);
-
+ 
         ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-                translationVal,
-                strafeVal,
-                rotationVal,
+                translationVal * Constants.Swerve.maxSpeed * m_speedReduction.getAsDouble(),
+                strafeVal * Constants.Swerve.maxSpeed * m_speedReduction.getAsDouble(),
+                rotationVal * Constants.Swerve.maxAngularVelocity * m_speedReduction.getAsDouble(),
                 s_Swerve.getYaw());
 
         // if d-pad desired heading is commanded, then rotate to that
@@ -63,6 +63,7 @@ public class Drive extends CommandBase {
             speeds.omegaRadiansPerSecond += driftCorrectionPID.calculate(s_Swerve.getPose().getRotation().getDegrees(),
                     desiredHeading);
         }
+        
         /* Drive */
         s_Swerve.drive(speeds);
 
