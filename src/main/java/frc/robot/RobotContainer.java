@@ -1,6 +1,7 @@
 package frc.robot;
 
 import java.util.List;
+import java.util.function.DoubleSupplier;
 
 import javax.management.InstanceAlreadyExistsException;
 
@@ -77,13 +78,15 @@ public class RobotContainer {
      */
     public RobotContainer() {
         s_Swerve.setDefaultCommand(
-                new TeleopSwerve(
+                new Drive(
                         s_Swerve,
                         () -> -driver.getRawAxis(translationAxis),
                         () -> -driver.getRawAxis(strafeAxis),
                         () -> -driver.getRawAxis(rotationAxis),
+                        () -> getDesiredHeading(),
                         () -> speedReduction(),
                         () -> robotCentric.getAsBoolean()));
+                        
         intake.setDefaultCommand(
                 new Intakecommand(intake, () -> operator.getRawAxis(intakeAxis),
                         () -> operator.getRawAxis(outtakeAxis)));
@@ -279,6 +282,9 @@ public class RobotContainer {
         modAbsoluteOffSet.onTrue(new InstantCommand(()-> s_Swerve.resetModulesToAbsolute()));
     }
 
+    public DoubleSupplier getDesiredHeading(){
+        return 999;
+    }
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
      *
