@@ -38,8 +38,6 @@ public class Swerve extends SubsystemBase {
 
     public Swerve() {
 
-
-        zeroHeading(180);
         mSwerveMods = new SwerveModule[] {
             new SwerveModule(0, Constants.Swerve.Mod0.constants),
             new SwerveModule(1, Constants.Swerve.Mod1.constants),
@@ -58,6 +56,7 @@ public class Swerve extends SubsystemBase {
             velocityValues[mod.moduleNumber] = Shuffleboard.getTab("Swerve").add("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond).withPosition((2+mod.moduleNumber),2).getEntry();    
         }
         swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getYaw(), getModulePositions());
+        zeroHeading(0);
     }
 
     /**

@@ -108,92 +108,7 @@ public class RobotContainer {
                 configureButtonBindings();
 
                 autoChooser.setDefaultOption("Do nothing", new InstantCommand());
-                /**
-                 * Run the Center Start, balance Auto
-                 */
-                autoChooser.addOption("Center start", (new MoveArmDown(arm).withTimeout(0.7))
-                                .andThen(new IntakeOut(intake).withTimeout(2))
-                                .andThen(new DriveSegment(s_Swerve,
-                                                List.of(
-                                                                new Translation2d(0, 0),
-                                                                new Translation2d(2.7, 0)),
-                                                new Rotation2d().fromDegrees(180),
-                                                new Rotation2d().fromDegrees(180),
-                                                true,
-                                                true))
-                                .andThen(new AutoBalance(s_Swerve)));
-
-                /**
-                 * Score And Do Nothing
-                 */
-                autoChooser.addOption("Score and then Do nothing", new MoveArmDown(arm).withTimeout(0.7)
-                                .andThen(new IntakeOut(intake).withTimeout(2)));
-
-                /**
-                 * Short Side Start
-                 */
-                autoChooser.addOption("Short Side Start", new MoveArmDown(arm).withTimeout(0.7)
-                                .andThen(new IntakeOut(intake).withTimeout(2))
-                                .andThen(new DriveSegment(s_Swerve,
-                                                List.of(
-                                                                new Translation2d(0, 0),
-                                                                new Translation2d(3.1, 0)),
-                                                new Rotation2d().fromDegrees(180),
-                                                new Rotation2d().fromDegrees(180),
-                                                true,
-                                                true)));
-
-                /**
-                 * Long Side Start
-                 */
-                autoChooser.addOption("Long Side Start", new MoveArmDown(arm).withTimeout(0.7)
-                                .andThen(new IntakeOut(intake)).withTimeout(2)
-                                .andThen(new DriveSegment(s_Swerve,
-                                                List.of(
-                                                                new Translation2d(0, 0),
-                                                                new Translation2d(4.65, 0)),
-                                                new Rotation2d().fromDegrees(180),
-                                                new Rotation2d().fromDegrees(180),
-                                                true,
-                                                true)));
-
-                /**
-                 * Long Side Start Pick up 2nd Cube
-                 */
-                autoChooser.addOption("Long Side Start Double", new MoveArmDown(arm).withTimeout(0.7)
-                                .andThen(new IntakeOut(intake)).withTimeout(2)
-                                .andThen(new DriveSegment(s_Swerve,
-                                                List.of(
-                                                                new Translation2d(0, 0),
-                                                                new Translation2d(4.65, 0)),
-                                                new Rotation2d().fromDegrees(180),
-                                                new Rotation2d().fromDegrees(180),
-                                                false,
-                                                true))
-                                .andThen(new IntakeOut(intake).withTimeout(2))
-                                .andThen(new DriveSegment(s_Swerve,
-                                                List.of(
-                                                                new Translation2d(4.65, 0),
-                                                                new Translation2d(5.68, 0)),
-                                                new Rotation2d().fromDegrees(180),
-                                                new Rotation2d().fromDegrees(0),
-                                                true,
-                                                false)));
-
-                // Second level scoring - LongSideStart
-
-                autoChooser.addOption("Long Side Start Second Level", (new MoveArmUp(arm).withTimeout(0.5))
-                                .andThen(new IntakeOut(intake).withTimeout(4))
-                                .andThen(new MoveArmDown(arm).withTimeout(2))
-                                .andThen(new DriveSegment(s_Swerve,
-                                                List.of(
-                                                                new Translation2d(0, 0),
-                                                                new Translation2d(4.65, 0)),
-                                                new Rotation2d().fromDegrees(0),
-                                                new Rotation2d().fromDegrees(0),
-                                                true,
-                                                false)));
-
+                updateAutoChoices();
                 SmartDashboard.putData(CommandScheduler.getInstance());
                 SmartDashboard.putData(s_Swerve);
                 SmartDashboard.putData(arm);
@@ -302,20 +217,91 @@ public class RobotContainer {
         }
 
         public void updateAutoChoices() {
-                if (DriverStation.getAlliance().equals(Alliance.Red)) {
-                        try {
-                                autoChooser.addOption("Left start - Red", new Start1PickupRed(s_Swerve));
-                                autoChooser.addOption("Right start - Red", new Start3PickupRed(s_Swerve));
-                        } catch (NullPointerException ex) {
-                                DriverStation.reportError("auto choose NULL somewhere in RobotContainer.java", null);
-                        }
-                } else if (DriverStation.getAlliance().equals(Alliance.Blue)) {
-                        try {
-                                autoChooser.addOption("Left start - Blue", new Start1PickupBlue(s_Swerve));
-                                autoChooser.addOption("Right start - Blue", new Start3PickupBlue(s_Swerve));
-                        } catch (NullPointerException ex) {
-                                DriverStation.reportError("auto choose NULL somewhere in RobotContainer.java", null);
-                        }
-                }
+                /**
+                 * Run the Center Start, balance Auto
+                 */
+                autoChooser.addOption("Center start", (new MoveArmDown(arm).withTimeout(0.7))
+                                .andThen(new IntakeOut(intake).withTimeout(2))
+                                .andThen(new DriveSegment(s_Swerve,
+                                                List.of(
+                                                                new Translation2d(0, 0),
+                                                                new Translation2d(2.7, 0)),
+                                                new Rotation2d().fromDegrees(180),
+                                                new Rotation2d().fromDegrees(180),
+                                                true,
+                                                true))
+                                .andThen(new AutoBalance(s_Swerve)));
+
+                /**
+                 * Score And Do Nothing
+                 */
+                autoChooser.addOption("Score and then Do nothing", new MoveArmDown(arm).withTimeout(0.7)
+                                .andThen(new IntakeOut(intake).withTimeout(2)));
+
+                /**
+                 * Short Side Start
+                 */
+                autoChooser.addOption("Short Side Start", new MoveArmDown(arm).withTimeout(0.7)
+                                .andThen(new IntakeOut(intake).withTimeout(2))
+                                .andThen(new DriveSegment(s_Swerve,
+                                                List.of(
+                                                                new Translation2d(0, 0),
+                                                                new Translation2d(3.1, 0)),
+                                                new Rotation2d().fromDegrees(180),
+                                                new Rotation2d().fromDegrees(180),
+                                                true,
+                                                true)));
+
+                /**
+                 * Long Side Start
+                 */
+                autoChooser.addOption("Long Side Start", new MoveArmDown(arm).withTimeout(0.7)
+                                .andThen(new IntakeOut(intake)).withTimeout(2)
+                                .andThen(new DriveSegment(s_Swerve,
+                                                List.of(
+                                                                new Translation2d(0, 0),
+                                                                new Translation2d(4.65, 0)),
+                                                new Rotation2d().fromDegrees(180),
+                                                new Rotation2d().fromDegrees(180),
+                                                true,
+                                                true)));
+
+                /**
+                 * Long Side Start Pick up 2nd Cube
+                 */
+                autoChooser.addOption("Long Side Start Double", new MoveArmDown(arm).withTimeout(0.7)
+                                .andThen(new IntakeOut(intake)).withTimeout(2)
+                                .andThen(new DriveSegment(s_Swerve,
+                                                List.of(
+                                                                new Translation2d(0, 0),
+                                                                new Translation2d(4.65, 0)),
+                                                new Rotation2d().fromDegrees(180),
+                                                new Rotation2d().fromDegrees(180),
+                                                false,
+                                                true))
+                                .andThen(new IntakeOut(intake).withTimeout(2))
+                                .andThen(new DriveSegment(s_Swerve,
+                                                List.of(
+                                                                new Translation2d(4.65, 0),
+                                                                new Translation2d(5.68, 0)),
+                                                new Rotation2d().fromDegrees(180),
+                                                new Rotation2d().fromDegrees(0),
+                                                true,
+                                                false)));
+
+                // Second level scoring - LongSideStart
+
+                autoChooser.addOption("Long Side Start Second Level", (new MoveArmUp(arm).withTimeout(0.5))
+                                .andThen(new IntakeOut(intake).withTimeout(4))
+                                .andThen(new MoveArmDown(arm).withTimeout(2))
+                                .andThen(new DriveSegment(s_Swerve,
+                                                List.of(
+                                                                new Translation2d(0, 0),
+                                                                new Translation2d(4.65, 0)),
+                                                new Rotation2d().fromDegrees(0),
+                                                new Rotation2d().fromDegrees(0),
+                                                true,
+                                                false)));
+
         }
 }
