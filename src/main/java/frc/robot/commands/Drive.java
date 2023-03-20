@@ -10,6 +10,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class Drive extends CommandBase {
@@ -19,7 +20,7 @@ public class Drive extends CommandBase {
     private DoubleSupplier rotationSup;
     private DoubleSupplier m_speedReduction;
     private BooleanSupplier robotCentricSup;
-    private PIDController driftCorrectionPID = new PIDController(0.5, 0.00, 0.01, 0.04);
+    private PIDController driftCorrectionPID = new PIDController(0.3, 0.00, 0.01, 0.04);
     private double previousXY = 0;
     private double desiredHeading = 0;
     private DoubleSupplier commandedHeading;
@@ -62,8 +63,10 @@ public class Drive extends CommandBase {
          //  we are moving x or y, so add drift correction
             speeds.omegaRadiansPerSecond += driftCorrectionPID.calculate(s_Swerve.getPose().getRotation().getDegrees(),
                     desiredHeading);
+        } else {
+            desiredHeading = s_Swerve.getPose().getRotation().getDegrees();
         }
-        
+        SmartDashboard.putNumber("desired Heading", desiredHeading);
         /* Drive */
         s_Swerve.drive(speeds);
 
