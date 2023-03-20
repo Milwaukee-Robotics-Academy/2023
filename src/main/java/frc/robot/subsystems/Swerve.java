@@ -68,7 +68,7 @@ private double desiredHeading = 0;
      * Drift Correction driving
      */
     public void drive(ChassisSpeeds speeds){
-        SwerveModuleState[] states = kinematics.toSwerveModuleStates(speeds);
+        SwerveModuleState[] states = getKinematics().toSwerveModuleStates(speeds);
         setModuleStates(states);
     }
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {

@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -198,7 +199,10 @@ public class RobotContainer {
 
 
 
-
+        SmartDashboard.putData(CommandScheduler.getInstance());
+        SmartDashboard.putData(s_Swerve);
+        SmartDashboard.putData(arm);
+        SmartDashboard.putData(intake);
         Shuffleboard.getTab("Autonomous").add(autoChooser).withSize(2,1);
 
     }
@@ -282,7 +286,7 @@ public class RobotContainer {
         modAbsoluteOffSet.onTrue(new InstantCommand(()-> s_Swerve.resetModulesToAbsolute()));
     }
 
-    public DoubleSupplier getDesiredHeading(){
+    public double getDesiredHeading(){
         return 999;
     }
     /**
@@ -298,6 +302,10 @@ public class RobotContainer {
 
     public void teleopInit() {
 
+    }
+
+    public void robotPeriodic() {
+       
     }
 
     public void updateAutoChoices() {
