@@ -36,15 +36,10 @@ public class Swerve extends SubsystemBase {
     
     private final AHRS gyro = new AHRS(SPI.Port.kMXP, (byte) 200);
 
-private PIDController driftCorrectionPID = new PIDController(.5, 0.00, 0.01,0.04);
-private double previousXY = 0;
-private double desiredHeading = 0;
-
     public Swerve() {
 
 
         zeroHeading(180);
-        driftCorrectionPID.enableContinuousInput(-180, 180);
         mSwerveMods = new SwerveModule[] {
             new SwerveModule(0, Constants.Swerve.Mod0.constants),
             new SwerveModule(1, Constants.Swerve.Mod1.constants),
@@ -70,6 +65,7 @@ private double desiredHeading = 0;
      */
     public void drive(ChassisSpeeds speeds){
         SwerveModuleState[] states = getKinematics().toSwerveModuleStates(speeds);
+        SwerveDriveKinematics.desaturateWheelSpeeds(states, Constants.Swerve.maxSpeed);
         setModuleStates(states);
     }
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
@@ -81,21 +77,6 @@ private double desiredHeading = 0;
             getYaw()
         );
 
-        /**
-         * TODO: First get the Chassis speeds, run through drift correction then pass
-         * see: https://www.chiefdelphi.com/t/mk4-drift/403628/28
-         */
-        SmartDashboard.putNumber("X", translation.getX());
-        SmartDashboard.putNumber("Y", translation.getY());
-        SmartDashboard.putNumber("rotation", rotation);
-
-        double xy = Math.abs(speeds.vxMetersPerSecond) + Math.abs(speeds.vyMetersPerSecond);
-        if(Math.abs(speeds.omegaRadiansPerSecond) > 0.0 || previousXY <= 0) desiredHeading = getPose().getRotation().getDegrees();
-        else if(xy > 0) speeds.omegaRadiansPerSecond += driftCorrectionPID.calculate(getPose().getRotation().getDegrees(), desiredHeading);
-        previousXY = xy;
-        
-        SmartDashboard.putNumber("speeds.omegaRadiansPerSecond", speeds.omegaRadiansPerSecond);
-        SmartDashboard.putNumber("desired Heading", desiredHeading);
         SwerveModuleState[] swerveModuleStates =
             Constants.Swerve.swerveKinematics.toSwerveModuleStates(
                 fieldRelative ? speeds
@@ -148,17 +129,14 @@ private double desiredHeading = 0;
         return positions;
     }
 
-    public void setDesiredHeading(double desired){
-        desiredHeading = desired;
-    }
     public void zeroHeading(){
         gyro.zeroYaw();
-        desiredHeading = 0;
+        swerveOdometry.update(getYaw(), getModulePositions());
     }
     public void zeroHeading(double heading){
         gyro.zeroYaw();
-        gyro.setAngleAdjustment(heading);  
-        desiredHeading = heading;
+        gyro.setAngleAdjustment(heading); 
+        swerveOdometry.update(getYaw(), getModulePositions());
     }
 
     public Rotation2d getYaw() {
