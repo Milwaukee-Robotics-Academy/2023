@@ -36,6 +36,7 @@ public class Drive extends CommandBase {
         this.m_speedReduction = speedReduction;
         this.robotCentricSup = robotCentricSup;
         this.commandedHeading = commandedHeading;
+        desiredHeading = s_Swerve.getPose().getRotation().getDegrees();
     }
 
     @Override
