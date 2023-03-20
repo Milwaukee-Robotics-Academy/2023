@@ -111,12 +111,12 @@ public class RobotContainer {
                 /**
                  * Run the Center Start, balance Auto
                  */
-                autoChooser.addOption("Center start", new MoveArmDown(arm).withTimeout(0.7)
+                autoChooser.addOption("Center start", (new MoveArmDown(arm).withTimeout(0.7))
                                 .andThen(new IntakeOut(intake).withTimeout(2))
                                 .andThen(new DriveSegment(s_Swerve,
                                                 List.of(
                                                                 new Translation2d(0, 0),
-                                                                new Translation2d(2.5, 0)),
+                                                                new Translation2d(2.7, 0)),
                                                 new Rotation2d().fromDegrees(180),
                                                 new Rotation2d().fromDegrees(180),
                                                 true,
