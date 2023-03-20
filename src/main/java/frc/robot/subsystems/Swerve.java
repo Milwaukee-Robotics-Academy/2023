@@ -64,6 +64,13 @@ private double desiredHeading = 0;
         swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getYaw(), getModulePositions());
     }
 
+    /**
+     * Drift Correction driving
+     */
+    public void drive(ChassisSpeeds speeds){
+        SwerveModuleState[] states = kinematics.toSwerveModuleStates(speeds);
+        setModuleStates(states);
+    }
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
        
        ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(
