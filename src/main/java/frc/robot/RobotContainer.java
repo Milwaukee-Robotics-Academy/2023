@@ -141,7 +141,7 @@ public class RobotContainer {
          * Long Side Start
          */
         autoChooser.addOption("Long Side Start", new MoveArmDown(arm).withTimeout(0.7)
-                .andThen(new IntakeOut(intake).withTimeout(2))
+                .andThen(new IntakeOut(intake)).withTimeout(2)
                 .andThen(new DriveSegment(s_Swerve,
                         List.of(
                                 new Translation2d(0, 0),
@@ -155,7 +155,7 @@ public class RobotContainer {
          * Long Side Start Pick up 2nd Cube
          */
         autoChooser.addOption("Long Side Start Double", new MoveArmDown(arm).withTimeout(0.7)
-        .andThen(new IntakeOut(intake).withTimeout(2))
+        .andThen(new IntakeOut(intake)).withTimeout(2)
         .andThen(new DriveSegment(s_Swerve,
                 List.of(
                         new Translation2d(0, 0),
@@ -178,7 +178,7 @@ public class RobotContainer {
         //Second level scoring - LongSideStart
 
         autoChooser.addOption("Long Side Start Second Level", new MoveArmUp(arm).withTimeout(0.5)
-        .andThen(new IntakeOut(intake).withTimeout(4))
+        .andThen(new IntakeOut(intake)).withTimeout(4)
         .andThen(new MoveArmDown(arm)).withTimeout(2)
         .andThen(new DriveSegment(s_Swerve,
         List.of(
