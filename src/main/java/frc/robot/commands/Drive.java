@@ -27,6 +27,7 @@ public class Drive extends CommandBase {
         this.s_Swerve = s_Swerve;
         addRequirements(s_Swerve);
 
+        this.suppliedHeading = commandedHeading;
         this.translationSup = translationSup;
         this.strafeSup = strafeSup;
         this.rotationSup = rotationSup;
@@ -36,8 +37,6 @@ public class Drive extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    desiredHeading = s_Swerve.getPose().getRotation().getDegrees();
-        this.suppliedHeading = commandedHeading;
         desiredHeading = s_Swerve.getPose().getRotation().getDegrees();
         driftCorrectionPID.enableContinuousInput(-180, 180);
         driftCorrectionPID.setTolerance(5,10);
