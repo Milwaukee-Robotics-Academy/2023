@@ -60,8 +60,9 @@ public class Drive extends CommandBase {
 
         // if d-pad desired heading is commanded, then rotate to that
         if (Math.abs(commandedHeading) < 181) {
-            if (turnToAnglePID.atSetpoint()) {
+            if (driftCorrectionPID.atSetpoint()) {
                 commandedHeading = 999;
+                driftCorrectionPID.reset();
             } else {
                 speeds.omegaRadiansPerSecond += driftCorrectionPID.calculate(
                         s_Swerve.getPose().getRotation().getDegrees(),
@@ -77,9 +78,13 @@ public class Drive extends CommandBase {
             }
             if ((Math.abs(translationVal) + Math.abs(strafeVal)) > 0) {
                 // we are moving x or y, so add drift correction
-                speeds.omegaRadiansPerSecond += driftCorrectionPID.calculate(
-                        s_Swerve.getPose().getRotation().getDegrees(),
-                        desiredHeading);
+                if (driftCorrectionPID.atSetpoint()) {
+                    driftCorrectionPID.reset();
+                } else {
+                    speeds.omegaRadiansPerSecond += driftCorrectionPID.calculate(
+                            s_Swerve.getPose().getRotation().getDegrees(),
+                            desiredHeading);
+                }
             } else {
                 desiredHeading = s_Swerve.getPose().getRotation().getDegrees();
             }
