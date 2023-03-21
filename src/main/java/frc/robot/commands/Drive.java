@@ -40,6 +40,7 @@ public class Drive extends CommandBase {
         this.robotCentricSup = robotCentricSup;
         this.suppliedHeading = commandedHeading;
         desiredHeading = s_Swerve.getPose().getRotation().getDegrees();
+        driftCorrectionPID.enableContinuousInput(-180, 180);
     }
 
     @Override
