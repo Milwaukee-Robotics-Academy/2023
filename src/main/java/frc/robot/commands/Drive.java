@@ -50,7 +50,7 @@ public class Drive extends CommandBase {
         double translationVal = MathUtil.applyDeadband(translationSup.getAsDouble(), Constants.stickDeadband);
         double strafeVal = MathUtil.applyDeadband(strafeSup.getAsDouble(), Constants.stickDeadband);
         double rotationVal = MathUtil.applyDeadband(rotationSup.getAsDouble(), Constants.stickDeadband);
-        if (Math.abs(this.commandedHeading.getAsDouble()) < 181)
+        if (Math.abs(this.suppliedHeading.getAsDouble()) < 181)
             commandedHeading = this.suppliedHeading.getAsDouble();
 
         ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(
