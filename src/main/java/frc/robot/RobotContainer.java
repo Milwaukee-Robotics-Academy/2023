@@ -147,63 +147,68 @@ public class RobotContainer {
                 zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
 
                 // driverUP.onTrue(new TurnToAngleCmd(
-                //                 s_Swerve,
-                //                 0.0,
-                //                 () -> driver.getRawAxis(translationAxis),
-                //                 () -> driver.getRawAxis(strafeAxis),
-                //                 () -> speedReduction()).withTimeout(1.5));
+                // s_Swerve,
+                // 0.0,
+                // () -> driver.getRawAxis(translationAxis),
+                // () -> driver.getRawAxis(strafeAxis),
+                // () -> speedReduction()).withTimeout(1.5));
                 // driverDOWN.onTrue(new TurnToAngleCmd(
-                //                 s_Swerve,
-                //                 180.0,
-                //                 () -> driver.getRawAxis(translationAxis),
-                //                 () -> driver.getRawAxis(strafeAxis),
-                //                 () -> speedReduction()).withTimeout(1.5));
+                // s_Swerve,
+                // 180.0,
+                // () -> driver.getRawAxis(translationAxis),
+                // () -> driver.getRawAxis(strafeAxis),
+                // () -> speedReduction()).withTimeout(1.5));
                 // driverRIGHT.onTrue(new TurnToAngleCmd(
-                //                 s_Swerve,
-                //                 -90.0,
-                //                 () -> driver.getRawAxis(translationAxis),
-                //                 () -> driver.getRawAxis(strafeAxis),
-                //                 () -> speedReduction()).withTimeout(1.5));
+                // s_Swerve,
+                // -90.0,
+                // () -> driver.getRawAxis(translationAxis),
+                // () -> driver.getRawAxis(strafeAxis),
+                // () -> speedReduction()).withTimeout(1.5));
                 // driverLEFT.onTrue(new TurnToAngleCmd(
-                //                 s_Swerve,
-                //                 90.0,
-                //                 () -> driver.getRawAxis(translationAxis),
-                //                 () -> driver.getRawAxis(strafeAxis),
-                //                 () -> speedReduction()).withTimeout(1.5));
+                // s_Swerve,
+                // 90.0,
+                // () -> driver.getRawAxis(translationAxis),
+                // () -> driver.getRawAxis(strafeAxis),
+                // () -> speedReduction()).withTimeout(1.5));
                 // operatorUP.onTrue(new TurnToAngleCmd(
-                //                 s_Swerve,
-                //                 0.0,
-                //                 () -> driver.getRawAxis(translationAxis),
-                //                 () -> driver.getRawAxis(strafeAxis),
-                //                 () -> speedReduction()).withTimeout(1.5));
+                // s_Swerve,
+                // 0.0,
+                // () -> driver.getRawAxis(translationAxis),
+                // () -> driver.getRawAxis(strafeAxis),
+                // () -> speedReduction()).withTimeout(1.5));
                 // operatorDOWN.onTrue(new TurnToAngleCmd(
-                //                 s_Swerve,
-                //                 180.0,
-                //                 () -> driver.getRawAxis(translationAxis),
-                //                 () -> driver.getRawAxis(strafeAxis),
-                //                 () -> speedReduction()).withTimeout(1.5));
+                // s_Swerve,
+                // 180.0,
+                // () -> driver.getRawAxis(translationAxis),
+                // () -> driver.getRawAxis(strafeAxis),
+                // () -> speedReduction()).withTimeout(1.5));
                 // operatorRIGHT.onTrue(new TurnToAngleCmd(
-                //                 s_Swerve,
-                //                 -90.0,
-                //                 () -> driver.getRawAxis(translationAxis),
-                //                 () -> driver.getRawAxis(strafeAxis),
-                //                 () -> speedReduction()).withTimeout(1.5));
+                // s_Swerve,
+                // -90.0,
+                // () -> driver.getRawAxis(translationAxis),
+                // () -> driver.getRawAxis(strafeAxis),
+                // () -> speedReduction()).withTimeout(1.5));
                 // operatorLEFT.onTrue(new TurnToAngleCmd(
-                //                 s_Swerve,
-                //                 90.0,
-                //                 () -> driver.getRawAxis(translationAxis),
-                //                 () -> driver.getRawAxis(strafeAxis),
-                //                 () -> speedReduction()).withTimeout(1.5));
+                // s_Swerve,
+                // 90.0,
+                // () -> driver.getRawAxis(translationAxis),
+                // () -> driver.getRawAxis(strafeAxis),
+                // () -> speedReduction()).withTimeout(1.5));
 
                 modAbsoluteOffSet.onTrue(new InstantCommand(() -> s_Swerve.resetModulesToAbsolute()));
         }
 
         public double getDesiredHeading() {
-                if (driverUP.getAsBoolean() || operatorUP.getAsBoolean()){ return 0.0; } else
-                if (driverRIGHT.getAsBoolean() || operatorRIGHT.getAsBoolean()){ return -90.0; } else
-                if (driverDOWN.getAsBoolean() || operatorDOWN.getAsBoolean()){ return 180.0; } else
-                if (driverLEFT.getAsBoolean() || operatorLEFT.getAsBoolean()){ return 90.0; } else 
-                return 999;
+                if (driverUP.getAsBoolean() || operatorUP.getAsBoolean()) {
+                        return 0.0;
+                } else if (driverRIGHT.getAsBoolean() || operatorRIGHT.getAsBoolean()) {
+                        return -90.0;
+                } else if (driverDOWN.getAsBoolean() || operatorDOWN.getAsBoolean()) {
+                        return 180.0;
+                } else if (driverLEFT.getAsBoolean() || operatorLEFT.getAsBoolean()) {
+                        return 90.0;
+                } else
+                        return 999;
         }
 
         /**

@@ -49,7 +49,8 @@ public class Drive extends CommandBase {
         double translationVal = MathUtil.applyDeadband(translationSup.getAsDouble(), Constants.stickDeadband);
         double strafeVal = MathUtil.applyDeadband(strafeSup.getAsDouble(), Constants.stickDeadband);
         double rotationVal = MathUtil.applyDeadband(rotationSup.getAsDouble(), Constants.stickDeadband);
-        if (Math.abs(this.commandedHeading.getAsDouble()) < 181 ) commandedHeading = this.suppliedHeading.getAsDouble();
+        if (Math.abs(this.commandedHeading.getAsDouble()) < 181)
+            commandedHeading = this.suppliedHeading.getAsDouble();
 
         ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(
                 translationVal * Constants.Swerve.maxSpeed * m_speedReduction.getAsDouble(),
@@ -59,23 +60,25 @@ public class Drive extends CommandBase {
 
         // if d-pad desired heading is commanded, then rotate to that
         if (Math.abs(commandedHeading) < 181) {
-            if (turnToAnglePID.atSetpoint() ) {
+            if (turnToAnglePID.atSetpoint()) {
                 commandedHeading = 999;
             } else {
-                speeds.omegaRadiansPerSecond += driftCorrectionPID.calculate(s_Swerve.getPose().getRotation().getDegrees(),
-                commandedHeading);
-                //keep the desired heading set to our current heading
+                speeds.omegaRadiansPerSecond += driftCorrectionPID.calculate(
+                        s_Swerve.getPose().getRotation().getDegrees(),
+                        commandedHeading);
+                // keep the desired heading set to our current heading
                 desiredHeading = s_Swerve.getPose().getRotation().getDegrees();
             }
 
-        } else { //no dpad, just correct for drift
+        } else { // no dpad, just correct for drift
             if (Math.abs(speeds.omegaRadiansPerSecond) > 0.0) {
                 // we are turning, so set the desired and the current the same
                 desiredHeading = s_Swerve.getPose().getRotation().getDegrees();
             }
             if ((Math.abs(translationVal) + Math.abs(strafeVal)) > 0) {
-             //  we are moving x or y, so add drift correction
-                speeds.omegaRadiansPerSecond += driftCorrectionPID.calculate(s_Swerve.getPose().getRotation().getDegrees(),
+                // we are moving x or y, so add drift correction
+                speeds.omegaRadiansPerSecond += driftCorrectionPID.calculate(
+                        s_Swerve.getPose().getRotation().getDegrees(),
                         desiredHeading);
             } else {
                 desiredHeading = s_Swerve.getPose().getRotation().getDegrees();
@@ -87,7 +90,6 @@ public class Drive extends CommandBase {
         s_Swerve.drive(speeds);
 
     }
-
 
     @Override
     public void end(boolean interrupted) {
