@@ -20,10 +20,10 @@ public class AutoBalance extends CommandBase {
         /* Get Values, Deadband*/
         double driveSpeed;
 
-        if(s_Swerve.getPitch() > 10){
-                driveSpeed = -.10;
-            } else if(s_Swerve.getPitch() < -10){
-            driveSpeed = .10;
+        if(s_Swerve.getRoll() > -5){
+                driveSpeed = -.20;
+            } else if(s_Swerve.getRoll() < -5){
+            driveSpeed = .20;
             } else {driveSpeed = 0;}
 
         /* Drive */

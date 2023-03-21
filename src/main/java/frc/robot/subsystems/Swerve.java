@@ -168,8 +168,18 @@ public class Swerve extends SubsystemBase {
             rotationValues[mod.moduleNumber].setDouble(mod.getPosition().angle.getDegrees());
             velocityValues[mod.moduleNumber].setDouble(mod.getState().speedMetersPerSecond);    
         }
-        Logger.getInstance().recordOutput("Robot",(swerveOdometry.update(getYaw(), getModulePositions())));  
-               // SmartDashboard.putNumber("Yaw",getYaw().getDegrees());
+
+
+
+        SmartDashboard.putNumber("Pitch", this.getPitch());
+
+        Logger.getInstance().recordOutput("Robot",(swerveOdometry.update(getYaw(), getModulePositions())));
+        SmartDashboard.putNumber("Yaw",getYaw().getDegrees());
+
+
+
+        SmartDashboard.putNumber("Roll", this.getRoll());
+        
 
     }
 }
