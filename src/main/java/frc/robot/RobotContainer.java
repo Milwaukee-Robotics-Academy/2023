@@ -2,23 +2,17 @@ package frc.robot;
 
 import java.util.List;
 
-import javax.management.InstanceAlreadyExistsException;
-
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.XboxController.Axis;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.autos.*;
@@ -53,12 +47,6 @@ public class RobotContainer {
         private final JoystickButton slow = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
         private final JoystickButton modAbsoluteOffSet = new JoystickButton(driver,
                         XboxController.Button.kLeftBumper.value);
-        private final JoystickButton intakeButton = new JoystickButton(operator,
-                        XboxController.Button.kRightBumper.value);
-        private final JoystickButton outakeButton = new JoystickButton(operator,
-                        XboxController.Button.kLeftBumper.value);
-        private final JoystickButton leftAnalog = new JoystickButton(operator, XboxController.Button.kLeftStick.value);
-        private final JoystickButton armButton = new JoystickButton(operator, XboxController.Button.kRightStick.value);
 
         public final POVButton driverUP;
         public final POVButton driverDOWN;
@@ -68,7 +56,7 @@ public class RobotContainer {
         private POVButton operatorDOWN;
         private POVButton operatorLEFT;
         private POVButton operatorRIGHT;
-        private double heading;
+
 
         /* Subsystems */
         private final Swerve s_Swerve = new Swerve();
@@ -236,8 +224,8 @@ public class RobotContainer {
                                                 List.of(
                                                                 new Translation2d(0, 0),
                                                                 new Translation2d(2.7, 0)),
-                                                new Rotation2d().fromDegrees(180),
-                                                new Rotation2d().fromDegrees(180),
+                                                Rotation2d.fromDegrees(180),
+                                                Rotation2d.fromDegrees(180),
                                                 true,
                                                 true))
                                 .andThen(new AutoBalance(s_Swerve)));
@@ -257,8 +245,8 @@ public class RobotContainer {
                                                 List.of(
                                                                 new Translation2d(0, 0),
                                                                 new Translation2d(3.1, 0)),
-                                                new Rotation2d().fromDegrees(180),
-                                                new Rotation2d().fromDegrees(180),
+                                                Rotation2d.fromDegrees(180),
+                                                Rotation2d.fromDegrees(180),
                                                 true,
                                                 true)));
 
@@ -271,8 +259,8 @@ public class RobotContainer {
                                                 List.of(
                                                                 new Translation2d(0, 0),
                                                                 new Translation2d(4.65, 0)),
-                                                new Rotation2d().fromDegrees(180),
-                                                new Rotation2d().fromDegrees(180),
+                                                Rotation2d.fromDegrees(180),
+                                                Rotation2d.fromDegrees(180),
                                                 true,
                                                 true)));
 
@@ -285,8 +273,8 @@ public class RobotContainer {
                                                 List.of(
                                                                 new Translation2d(0, 0),
                                                                 new Translation2d(4.65, 0)),
-                                                new Rotation2d().fromDegrees(180),
-                                                new Rotation2d().fromDegrees(180),
+                                                Rotation2d.fromDegrees(180),
+                                                Rotation2d.fromDegrees(180),
                                                 false,
                                                 true))
                                 .andThen(new IntakeOut(intake).withTimeout(2))
@@ -294,8 +282,8 @@ public class RobotContainer {
                                                 List.of(
                                                                 new Translation2d(4.65, 0),
                                                                 new Translation2d(5.68, 0)),
-                                                new Rotation2d().fromDegrees(180),
-                                                new Rotation2d().fromDegrees(0),
+                                                Rotation2d.fromDegrees(180),
+                                                Rotation2d.fromDegrees(0),
                                                 true,
                                                 false)));
 
@@ -308,8 +296,8 @@ public class RobotContainer {
                                                 List.of(
                                                                 new Translation2d(0, 0),
                                                                 new Translation2d(4.65, 0)),
-                                                new Rotation2d().fromDegrees(0),
-                                                new Rotation2d().fromDegrees(0),
+                                                Rotation2d.fromDegrees(0),
+                                                Rotation2d.fromDegrees(0),
                                                 true,
                                                 false)));
 

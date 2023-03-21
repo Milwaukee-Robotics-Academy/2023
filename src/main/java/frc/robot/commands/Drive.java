@@ -1,17 +1,15 @@
 package frc.robot.commands;
 
-import frc.robot.Constants;
-import frc.robot.subsystems.Swerve;
-
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
+import frc.robot.subsystems.Swerve;
 
 public class Drive extends CommandBase {
     private Swerve s_Swerve;
@@ -20,13 +18,9 @@ public class Drive extends CommandBase {
     private DoubleSupplier rotationSup;
     private DoubleSupplier suppliedHeading;
     private DoubleSupplier m_speedReduction;
-    private BooleanSupplier robotCentricSup;
     private PIDController driftCorrectionPID = new PIDController(0.3, 0.00, 0.01, 0.04);
-    private PIDController turnToAnglePID = new PIDController(0.3, 0.00, 0.01, 0.04);
-    private double previousXY = 0;
     private double desiredHeading = 0;
     private double commandedHeading;
-    private boolean followCommanded = false;
 
     public Drive(Swerve s_Swerve, DoubleSupplier translationSup, DoubleSupplier strafeSup, DoubleSupplier rotationSup,
             DoubleSupplier commandedHeading, DoubleSupplier speedReduction, BooleanSupplier robotCentricSup) {
@@ -37,7 +31,6 @@ public class Drive extends CommandBase {
         this.strafeSup = strafeSup;
         this.rotationSup = rotationSup;
         this.m_speedReduction = speedReduction;
-        this.robotCentricSup = robotCentricSup;
         this.suppliedHeading = commandedHeading;
         desiredHeading = s_Swerve.getPose().getRotation().getDegrees();
         driftCorrectionPID.enableContinuousInput(-180, 180);
