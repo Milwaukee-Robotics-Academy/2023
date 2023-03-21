@@ -113,7 +113,7 @@ public class RobotContainer {
                 SmartDashboard.putData(s_Swerve);
                 SmartDashboard.putData(arm);
                 SmartDashboard.putData(intake);
-
+                SmartDashboard.putNumber("Pitch", s_Swerve.getPitch());
                 Shuffleboard.getTab("Autonomous").add(autoChooser).withSize(2, 1);
 
         }
@@ -222,14 +222,15 @@ public class RobotContainer {
                  */
                 autoChooser.addOption("Center start", (new MoveArmDown(arm).withTimeout(0.7))
                                 .andThen(new IntakeOut(intake).withTimeout(2))
+                                .andThen(new MoveArmUp(arm).withTimeout(.3))
                                 .andThen(new DriveSegment(s_Swerve,
                                                 List.of(
                                                                 new Translation2d(0, 0),
-                                                                new Translation2d(2.7, 0)),
+                                                                new Translation2d(3.5, 0)),
                                                 new Rotation2d().fromDegrees(180),
                                                 new Rotation2d().fromDegrees(180),
                                                 true,
-                                                true))
+                                                true).withTimeout(2.5))
                                 .andThen(new AutoBalance(s_Swerve)));
 
                 /**
@@ -303,5 +304,9 @@ public class RobotContainer {
                                                 true,
                                                 false)));
 
+
+                
+                        
+                        
         }
 }
