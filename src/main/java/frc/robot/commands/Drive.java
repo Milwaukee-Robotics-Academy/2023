@@ -41,6 +41,7 @@ public class Drive extends CommandBase {
         this.suppliedHeading = commandedHeading;
         desiredHeading = s_Swerve.getPose().getRotation().getDegrees();
         driftCorrectionPID.enableContinuousInput(-180, 180);
+        driftCorrectionPID.setTolerance(5,10);
     }
 
     @Override
@@ -78,7 +79,7 @@ public class Drive extends CommandBase {
                 desiredHeading = s_Swerve.getPose().getRotation().getDegrees();
             }
             if ((Math.abs(translationVal) + Math.abs(strafeVal)) > 0) {
-                // we are moving x or y, so add drift correction
+                // we are moving x or y, but should not be moving theta so add drift correction
                 if (driftCorrectionPID.atSetpoint()) {
                     driftCorrectionPID.reset();
                 } else {
