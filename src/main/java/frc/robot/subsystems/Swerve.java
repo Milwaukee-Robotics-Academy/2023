@@ -1,12 +1,9 @@
 package frc.robot.subsystems;
 
-import java.util.Map;
-
 import org.littletonrobotics.junction.Logger;
 
 import com.kauailabs.navx.frc.AHRS;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -18,9 +15,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -35,15 +30,9 @@ public class Swerve extends SubsystemBase {
     public GenericEntry[] velocityValues;
     
     private final AHRS gyro = new AHRS(SPI.Port.kMXP, (byte) 200);
-private PIDController driftCorrectionPID = new PIDController(.5, 0.00, 0.01,0.04);
-private double previousXY = 0;
-private double desiredHeading = 0;
 
     public Swerve() {
 
-
-        zeroHeading(180);
-        driftCorrectionPID.enableContinuousInput(-180, 180);
         mSwerveMods = new SwerveModule[] {
             new SwerveModule(0, Constants.Swerve.Mod0.constants),
             new SwerveModule(1, Constants.Swerve.Mod1.constants),
@@ -62,7 +51,18 @@ private double desiredHeading = 0;
             velocityValues[mod.moduleNumber] = Shuffleboard.getTab("Swerve").add("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond).withPosition((2+mod.moduleNumber),2).getEntry();    
         }
         swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getYaw(), getModulePositions());
+        zeroHeading(0);
     }
+
+    /**
+     * Drift Correction driving
+     */
+    public void drive(ChassisSpeeds speeds){
+        SwerveModuleState[] states = Constants.Swerve.swerveKinematics.toSwerveModuleStates(speeds);
+      //  SwerveDriveKinematics.desaturateWheelSpeeds(states, Constants.Swerve.maxSpeed);
+        setModuleStates(states);
+    }
+
 
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
        
@@ -73,21 +73,6 @@ private double desiredHeading = 0;
             getYaw()
         );
 
-        /**
-         * TODO: First get the Chassis speeds, run through drift correction then pass
-         * see: https://www.chiefdelphi.com/t/mk4-drift/403628/28
-         */
-        SmartDashboard.putNumber("X", translation.getX());
-        SmartDashboard.putNumber("Y", translation.getY());
-        SmartDashboard.putNumber("rotation", rotation);
-
-        double xy = Math.abs(speeds.vxMetersPerSecond) + Math.abs(speeds.vyMetersPerSecond);
-        if(Math.abs(speeds.omegaRadiansPerSecond) > 0.0 || previousXY <= 0) desiredHeading = getPose().getRotation().getDegrees();
-        else if(xy > 0) speeds.omegaRadiansPerSecond += driftCorrectionPID.calculate(getPose().getRotation().getDegrees(), desiredHeading);
-        previousXY = xy;
-        
-        SmartDashboard.putNumber("speeds.omegaRadiansPerSecond", speeds.omegaRadiansPerSecond);
-        SmartDashboard.putNumber("desired Heading", desiredHeading);
         SwerveModuleState[] swerveModuleStates =
             Constants.Swerve.swerveKinematics.toSwerveModuleStates(
                 fieldRelative ? speeds
@@ -109,7 +94,7 @@ private double desiredHeading = 0;
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, Constants.Swerve.maxSpeed);
         
         for(SwerveModule mod : mSwerveMods){
-            mod.setDesiredState(desiredStates[mod.moduleNumber], false);
+            mod.setDesiredState(desiredStates[mod.moduleNumber], true);
         }
     }    
 
@@ -140,17 +125,14 @@ private double desiredHeading = 0;
         return positions;
     }
 
-    public void setDesiredHeading(double desired){
-        desiredHeading = desired;
-    }
     public void zeroHeading(){
         gyro.zeroYaw();
-        desiredHeading = 0;
+        swerveOdometry.update(getYaw(), getModulePositions());
     }
     public void zeroHeading(double heading){
         gyro.zeroYaw();
-        gyro.setAngleAdjustment(heading);  
-        desiredHeading = heading;
+        gyro.setAngleAdjustment(heading); 
+        swerveOdometry.update(getYaw(), getModulePositions());
     }
 
     public Rotation2d getYaw() {
@@ -187,8 +169,18 @@ private double desiredHeading = 0;
             rotationValues[mod.moduleNumber].setDouble(mod.getPosition().angle.getDegrees());
             velocityValues[mod.moduleNumber].setDouble(mod.getState().speedMetersPerSecond);    
         }
-        Logger.getInstance().recordOutput("Robot",(swerveOdometry.update(getYaw(), getModulePositions())));  
-               // SmartDashboard.putNumber("Yaw",getYaw().getDegrees());
+
+
+
+        SmartDashboard.putNumber("Pitch", this.getPitch());
+
+        Logger.getInstance().recordOutput("Robot",(swerveOdometry.update(getYaw(), getModulePositions())));
+        SmartDashboard.putNumber("Yaw",getYaw().getDegrees());
+
+
+
+        SmartDashboard.putNumber("Roll", this.getRoll());
+        
 
     }
 }

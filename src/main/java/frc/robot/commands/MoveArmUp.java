@@ -1,20 +1,19 @@
 package frc.robot.commands;
 
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Arm;
 
-public class  MoveArmDown extends CommandBase {
+public class  MoveArmUp extends CommandBase {
     private Arm armSubsystem;
 
-    public MoveArmDown(Arm arm) {
+    public MoveArmUp(Arm arm) {
 
         armSubsystem = arm;
             addRequirements(armSubsystem);
         } 
      
     public void execute() {
-        armSubsystem.moveDown();
+        armSubsystem.moveUp();
         
     }    
     
