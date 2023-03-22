@@ -303,12 +303,6 @@ public class RobotContainer {
                                                 true,
                                                 false))
                                 .andThen(new IntakeIn(intake).withTimeout(4)));
-
-                                        
-
-
-                
-                        
-                        
+                       
         }
 }
