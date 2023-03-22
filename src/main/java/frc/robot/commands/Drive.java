@@ -18,7 +18,7 @@ public class Drive extends CommandBase {
     private DoubleSupplier rotationSup;
     private DoubleSupplier suppliedHeading;
     private DoubleSupplier m_speedReduction;
-    private PIDController driftCorrectionPID = new PIDController(0.3, 0.00, 0.01, 0.04);
+    private PIDController driftCorrectionPID = new PIDController(0.09, 0.00, 0.00, 0.04);
     private double desiredHeading = 0;
     private double commandedHeading;
 
@@ -37,9 +37,9 @@ public class Drive extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-        desiredHeading = s_Swerve.getPose().getRotation().getDegrees();
+        desiredHeading = s_Swerve.getYaw().getDegrees();
         driftCorrectionPID.enableContinuousInput(-180, 180);
-        driftCorrectionPID.setTolerance(5,10);
+        driftCorrectionPID.setTolerance(10,10);
     }
 
     @Override
@@ -65,16 +65,16 @@ public class Drive extends CommandBase {
                 driftCorrectionPID.reset();
             } else {
                 speeds.omegaRadiansPerSecond += driftCorrectionPID.calculate(
-                        s_Swerve.getPose().getRotation().getDegrees(),
+                        s_Swerve.getYaw().getDegrees(),
                         commandedHeading);
                 // keep the desired heading set to our current heading
-                desiredHeading = s_Swerve.getPose().getRotation().getDegrees();
+                desiredHeading = s_Swerve.getYaw().getDegrees();
             }
 
         } else { // no dpad, just correct for drift
             if (Math.abs(speeds.omegaRadiansPerSecond) > 0.0) {
                 // we are turning, so set the desired and the current the same
-                desiredHeading = s_Swerve.getPose().getRotation().getDegrees();
+                desiredHeading = s_Swerve.getYaw().getDegrees();
             }
             if ((Math.abs(translationVal) + Math.abs(strafeVal)) > 0) {
                 // we are moving x or y, but should not be moving theta so add drift correction
@@ -82,15 +82,17 @@ public class Drive extends CommandBase {
                     driftCorrectionPID.reset();
                 } else {
                     speeds.omegaRadiansPerSecond += driftCorrectionPID.calculate(
-                            s_Swerve.getPose().getRotation().getDegrees(),
+                            s_Swerve.getYaw().getDegrees(),
                             desiredHeading);
                 }
             } else {
-                desiredHeading = s_Swerve.getPose().getRotation().getDegrees();
+                desiredHeading = s_Swerve.getYaw().getDegrees();
             }
         }
 
         SmartDashboard.putNumber("desired Heading", desiredHeading);
+        SmartDashboard.putNumber("Commanded Heading", commandedHeading);
+        SmartDashboard.putBoolean("at setpoint", driftCorrectionPID.atSetpoint());
         /* Drive */
         s_Swerve.drive(speeds);
 
