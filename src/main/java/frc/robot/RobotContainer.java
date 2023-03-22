@@ -254,8 +254,8 @@ public class RobotContainer {
                 /**
                  * Long Side Start
                  */
-                autoChooser.addOption("Long Side Start", new MoveArmDown(arm).withTimeout(0.7)
-                                .andThen(new IntakeOut(intake)).withTimeout(2)
+                autoChooser.addOption("Long Side Start", (new MoveArmDown(arm).withTimeout(0.7))
+                                .andThen(new IntakeOut(intake).withTimeout(2))
                                 .andThen(new DriveSegment(s_Swerve,
                                                 List.of(
                                                                 new Translation2d(0, 0),
@@ -268,39 +268,43 @@ public class RobotContainer {
                 /**
                  * Long Side Start Pick up 2nd Cube
                  */
-                autoChooser.addOption("Long Side Start Double", new MoveArmDown(arm).withTimeout(0.7)
-                                .andThen(new IntakeOut(intake)).withTimeout(2)
-                                .andThen(new DriveSegment(s_Swerve,
-                                                List.of(
-                                                                new Translation2d(0, 0),
-                                                                new Translation2d(4.65, 0)),
-                                                Rotation2d.fromDegrees(180),
-                                                Rotation2d.fromDegrees(180),
-                                                false,
-                                                true))
-                                .andThen(new IntakeOut(intake).withTimeout(2))
-                                .andThen(new DriveSegment(s_Swerve,
-                                                List.of(
-                                                                new Translation2d(4.65, 0),
-                                                                new Translation2d(5.68, 0)),
-                                                Rotation2d.fromDegrees(180),
-                                                Rotation2d.fromDegrees(0),
-                                                true,
-                                                false)));
+                // autoChooser.addOption("Long Side Start Double", new MoveArmDown(arm).withTimeout(0.7)
+                //                 .andThen(new IntakeOut(intake)).withTimeout(2)
+                //                 .andThen(new DriveSegment(s_Swerve,
+                //                                 List.of(
+                //                                                 new Translation2d(0, 0),
+                //                                                 new Translation2d(4.65, 0)),
+                //                                 Rotation2d.fromDegrees(180),
+                //                                 Rotation2d.fromDegrees(180),
+                //                                 false,
+                //                                 true))
+                //                 .andThen(new IntakeOut(intake).withTimeout(2))
+                //                 .andThen(new DriveSegment(s_Swerve,
+                //                                 List.of(
+                //                                                 new Translation2d(4.65, 0),
+                //                                                 new Translation2d(5.68, 0)),
+                //                                 Rotation2d.fromDegrees(180),
+                //                                 Rotation2d.fromDegrees(0),
+                //                                 true,
+                //                                 false)));
 
                 // Second level scoring - LongSideStart
 
                 autoChooser.addOption("Long Side Start Second Level", (new MoveArmUp(arm).withTimeout(0.5))
                                 .andThen(new IntakeOut(intake).withTimeout(4))
-                                .andThen(new MoveArmDown(arm).withTimeout(2))
+                                .andThen(new MoveArmDown(arm).withTimeout(.75))
                                 .andThen(new DriveSegment(s_Swerve,
                                                 List.of(
                                                                 new Translation2d(0, 0),
-                                                                new Translation2d(4.65, 0)),
+                                                                new Translation2d(4.8, 0)),
+                                                              
                                                 Rotation2d.fromDegrees(0),
                                                 Rotation2d.fromDegrees(0),
                                                 true,
-                                                false)));
+                                                false))
+                                .andThen(new IntakeIn(intake).withTimeout(4)));
+
+                                        
 
 
                 
