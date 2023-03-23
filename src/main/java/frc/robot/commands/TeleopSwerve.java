@@ -8,6 +8,7 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 
@@ -45,5 +46,16 @@ public class TeleopSwerve extends CommandBase {
             !robotCentricSup.getAsBoolean(), 
             true
         );
+    }
+    // Called once the command ends or is interrupted.
+    @Override
+    public void end(boolean interrupted) {
+        s_Swerve.drive(new ChassisSpeeds());
+    }
+  
+    // Returns true when the command should end.
+    @Override
+    public boolean isFinished() {
+      return false;
     }
 }
