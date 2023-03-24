@@ -47,6 +47,7 @@ public class RobotContainer {
         private final JoystickButton slow = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
         private final JoystickButton modAbsoluteOffSet = new JoystickButton(driver,
                         XboxController.Button.kLeftBumper.value);
+        private final JoystickButton noPID = new JoystickButton(driver, XboxController.Button.kStart.value);
 
         public final POVButton driverUP;
         public final POVButton driverDOWN;
@@ -133,6 +134,11 @@ public class RobotContainer {
         private void configureButtonBindings() {
                 /* Driver Buttons */
                 zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
+                noPID.onTrue(new TeleopSwerve(s_Swerve, () -> -driver.getRawAxis(translationAxis),
+                () -> -driver.getRawAxis(strafeAxis),
+                () -> -driver.getRawAxis(rotationAxis),
+                () -> speedReduction(),
+                () -> robotCentric.getAsBoolean()));
 
                 // driverUP.onTrue(new TurnToAngleCmd(
                 // s_Swerve,
@@ -211,9 +217,16 @@ public class RobotContainer {
         }
 
         public void teleopInit() {
-
+           //     s_Swerve.limitCanCoderTraffic(true);
         }
 
+        public void autonomousInit(){
+             //   s_Swerve.limitCanCoderTraffic(true);
+        }
+
+        public void disabledInit() {
+              //  s_Swerve.limitCanCoderTraffic(false);
+        }
         public void updateAutoChoices() {
                 /**
                  * Run the Center Start, balance Auto

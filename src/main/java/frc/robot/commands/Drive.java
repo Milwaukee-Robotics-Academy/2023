@@ -100,6 +100,7 @@ public class Drive extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
+        driftCorrectionPID.reset();
         s_Swerve.drive(new ChassisSpeeds());
     }
 }

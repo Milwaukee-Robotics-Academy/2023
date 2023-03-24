@@ -3,6 +3,7 @@ package frc.robot;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.sensors.CANCoder;
+import com.ctre.phoenix.sensors.CANCoderStatusFrame;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -122,9 +123,9 @@ public class SwerveModule {
     }
     public void limitCanCoderTraffic(Boolean limit){
         if(limit){
-      //      angleEncoder.setStatusFramePeriod(CANCoderStatusFrame.SensorData, 10, 10);
+            angleEncoder.setStatusFramePeriod(CANCoderStatusFrame.SensorData, 100, 10);
         } else {
-       //     angleEncoder.setStatusFramePeriod(CANCoderStatusFrame.SensorData, 10, 10);
+           angleEncoder.setStatusFramePeriod(CANCoderStatusFrame.SensorData, 10, 10);
         }
     }
 }

@@ -150,19 +150,23 @@ public class Swerve extends SubsystemBase {
             mod.resetToAbsolute();
         }
     }
-
-    @Override
-    public void periodic(){
-        if (DriverStation.isDisabled()){
+    public void limitCanCoderTraffic(boolean limit){
+        if (limit){
             for(SwerveModule mod : mSwerveMods){
-                mod.limitCanCoderTraffic(false);
+                mod.limitCanCoderTraffic(true);
             }
             resetModulesToAbsolute();
         } else {
             for(SwerveModule mod : mSwerveMods){
-                mod.limitCanCoderTraffic(true);
+                mod.limitCanCoderTraffic(false);
             }
         }
+    
+    }
+    
+    @Override
+    public void periodic(){
+
 
         for(SwerveModule mod : mSwerveMods){
             canCoderValues[mod.moduleNumber].setDouble(mod.getCanCoder().getDegrees());

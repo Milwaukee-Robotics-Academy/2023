@@ -71,7 +71,9 @@ Logger.getInstance().start(); // Start logging! No more data receivers, replay s
 
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    m_robotContainer.disabledInit();
+  }
 
   @Override
   public void disabledPeriodic() {
@@ -87,6 +89,7 @@ Logger.getInstance().start(); // Start logging! No more data receivers, replay s
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
+    m_robotContainer.autonomousInit();
   }
 
   /** This function is called periodically during autonomous. */
