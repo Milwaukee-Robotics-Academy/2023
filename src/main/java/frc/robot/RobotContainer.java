@@ -119,7 +119,7 @@ public class RobotContainer {
                         return 0.4;
                 } else {
                         SmartDashboard.putBoolean("SpeedReduced", false);
-                        return 1.0;
+                        return 0.3;
                 }
         }
 
